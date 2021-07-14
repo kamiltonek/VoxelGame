@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Enums;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Chunk : MonoBehaviour
@@ -24,11 +23,11 @@ public class Chunk : MonoBehaviour
                 for (int x = 0; x < chunkSize; x++)
                 {
                     bool oddX = x % 2 == 0;
-                    float zOffset = oddX ? 0 : 1 * (float)(0.5 * Math.Sqrt(3) / 2);
+                    float zOffset = oddX ? 0 : (float)(0.5 * Math.Sqrt(3) / 2);
                     
                     float posX = x - (x * 0.25f);
                     float posY = y * 0.5f;
-                    float posZ = z - zOffset - z * 2 * (0.5f - (float)(0.5 * Math.Sqrt(3) / 2));
+                    float posZ = z - zOffset - z * (1f - (float)(0.5 * Math.Sqrt(3)));
 
                     chunkBlocks[x, y, z] = new Block(
                         BlockTypeEnum.DIRT, 
