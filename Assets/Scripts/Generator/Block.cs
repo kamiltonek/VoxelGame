@@ -2,9 +2,14 @@
 using System;
 using UnityEngine;
 
-public class Block : MonoBehaviour
+public class Block
 {
-    public Material material;
+    private BlockTypeEnum blockType;
+    private bool isTransparent;
+    private GameObject blockParent;
+    private Vector3 blockPosition;
+    private Material blockMaterial;
+
     Vector3[] vertices = new Vector3[14]
     {
         new Vector3( -0.5f,  0.25f,  0),
@@ -42,14 +47,24 @@ public class Block : MonoBehaviour
     Vector3 vectorRightFront = new Vector3(0.75f, 0, (float)(-0.5 * Math.Sqrt(3) / 2));
     Vector3 vectorRightBack = new Vector3(0.75f, 0, (float)(0.5 * Math.Sqrt(3) / 2));
 
-    private void Start()
+    public Block(
+        BlockTypeEnum blockType, 
+        GameObject blockParent, 
+        Vector3 blockPosition, 
+        Material blockMaterial)
     {
-        CreateBlock();
+        this.blockType = blockType;
+        this.blockParent = blockParent;
+        this.blockPosition = blockPosition;
+        this.blockMaterial = blockMaterial;
 
-        CombineSides();
+        isTransparent = 
+            blockType == BlockTypeEnum.AIR || 
+            blockType == BlockTypeEnum.WATER 
+            ? true : false;
     }
 
-    private void CreateBlock()
+    public void CreateBlock()
     {
         CreateBlockSide(BlockSideEnum.FRONT);
         CreateBlockSide(BlockSideEnum.BACK);
@@ -67,7 +82,8 @@ public class Block : MonoBehaviour
         mesh = GenerateBlockSide(mesh, side);
 
         GameObject blockSide = new GameObject(side.ToString());
-        blockSide.transform.parent = this.gameObject.transform;
+        blockSide.transform.position = blockPosition;
+        blockSide.transform.parent = blockParent.transform;
 
         MeshFilter meshFilter = (MeshFilter)blockSide.AddComponent(typeof(MeshFilter));
         meshFilter.mesh = mesh;
@@ -131,29 +147,4 @@ public class Block : MonoBehaviour
         return mesh;
     }
 
-    private void CombineSides()
-    {
-        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
-        CombineInstance[] combineSides = new CombineInstance[meshFilters.Length];
-
-        int index = 0;
-        foreach(MeshFilter meshFilter in meshFilters)
-        {
-            combineSides[index].mesh = meshFilter.sharedMesh;
-            combineSides[index].transform = meshFilter.transform.localToWorldMatrix;
-            index++;
-        }
-
-        MeshFilter blockMeshFilter = (MeshFilter)this.gameObject.AddComponent(typeof(MeshFilter));
-        blockMeshFilter.mesh = new Mesh();
-        blockMeshFilter.mesh.CombineMeshes(combineSides);
-
-        MeshRenderer blockMeshRenderer = (MeshRenderer)this.gameObject.AddComponent(typeof(MeshRenderer));
-        blockMeshRenderer.material = material;
-
-        foreach(Transform side in this.transform)
-        {
-            Destroy(side.gameObject);
-        }
-    }
 }

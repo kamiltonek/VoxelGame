@@ -9,7 +9,7 @@ namespace Assets.Scripts.Enums
     public enum BlockTypeEnum
     {
         DIRT,
-        AIT,
+        AIR,
         WATER
     };
 }
