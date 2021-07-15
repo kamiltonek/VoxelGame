@@ -8,6 +8,7 @@ public class Block
     private bool isTransparent;
     private GameObject blockParent;
     private Vector3 blockPosition;
+    private Vector3Int cubeBlockPosition;
     private Material blockMaterial;
 
     Vector3[] vertices = new Vector3[14]
@@ -50,12 +51,14 @@ public class Block
     public Block(
         BlockTypeEnum blockType, 
         GameObject blockParent, 
-        Vector3 blockPosition, 
+        Vector3 blockPosition,
+        Vector3Int cubeBlockPosition,
         Material blockMaterial)
     {
         this.blockType = blockType;
         this.blockParent = blockParent;
         this.blockPosition = blockPosition;
+        this.cubeBlockPosition = cubeBlockPosition;
         this.blockMaterial = blockMaterial;
 
         isTransparent = 
@@ -66,14 +69,58 @@ public class Block
 
     public void CreateBlock()
     {
-        CreateBlockSide(BlockSideEnum.FRONT);
-        CreateBlockSide(BlockSideEnum.BACK);
-        CreateBlockSide(BlockSideEnum.LEFT_BACK);
-        CreateBlockSide(BlockSideEnum.LEFT_FRONT);
-        CreateBlockSide(BlockSideEnum.RIGHT_BACK);
-        CreateBlockSide(BlockSideEnum.RIGHT_FRONT);
-        CreateBlockSide(BlockSideEnum.TOP);
-        CreateBlockSide(BlockSideEnum.BOTTOM);
+        if (blockType == BlockTypeEnum.AIR)
+            return;
+
+        if(HasTransparentNeighbour(BlockSideEnum.FRONT))
+            CreateBlockSide(BlockSideEnum.FRONT);
+        if (HasTransparentNeighbour(BlockSideEnum.BACK))
+            CreateBlockSide(BlockSideEnum.BACK);
+        if (HasTransparentNeighbour(BlockSideEnum.LEFT_BACK))
+            CreateBlockSide(BlockSideEnum.LEFT_BACK);
+        if (HasTransparentNeighbour(BlockSideEnum.LEFT_FRONT))
+            CreateBlockSide(BlockSideEnum.LEFT_FRONT);
+        if (HasTransparentNeighbour(BlockSideEnum.RIGHT_BACK))
+            CreateBlockSide(BlockSideEnum.RIGHT_BACK);
+        if (HasTransparentNeighbour(BlockSideEnum.RIGHT_FRONT))
+            CreateBlockSide(BlockSideEnum.RIGHT_FRONT);
+        if (HasTransparentNeighbour(BlockSideEnum.TOP))
+            CreateBlockSide(BlockSideEnum.TOP);
+        if (HasTransparentNeighbour(BlockSideEnum.BOTTOM))
+            CreateBlockSide(BlockSideEnum.BOTTOM);
+    }
+
+    private bool HasTransparentNeighbour(BlockSideEnum blockSide)
+    {
+        Block[,,] chunkBlocks = blockParent.GetComponent<Chunk>().chunkBlocks;
+        Vector3Int neighbourPosition;
+
+        if (blockSide == BlockSideEnum.FRONT)
+            neighbourPosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y, cubeBlockPosition.z + 1);
+        else if (blockSide == BlockSideEnum.BACK)
+            neighbourPosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y, cubeBlockPosition.z - 1);
+        else if(blockSide == BlockSideEnum.LEFT_BACK)
+            neighbourPosition = new Vector3Int(cubeBlockPosition.x - 1, cubeBlockPosition.y, cubeBlockPosition.z - 1);
+        else if(blockSide == BlockSideEnum.LEFT_FRONT)
+            neighbourPosition = new Vector3Int(cubeBlockPosition.x - 1, cubeBlockPosition.y, cubeBlockPosition.z + 1);
+        else if(blockSide == BlockSideEnum.RIGHT_BACK)
+            neighbourPosition = new Vector3Int(cubeBlockPosition.x + 1, cubeBlockPosition.y, cubeBlockPosition.z - 1);
+        else if(blockSide == BlockSideEnum.RIGHT_FRONT)
+            neighbourPosition = new Vector3Int(cubeBlockPosition.x + 1, cubeBlockPosition.y, cubeBlockPosition.z + 1);
+        else if (blockSide == BlockSideEnum.TOP)
+            neighbourPosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y + 1, cubeBlockPosition.z);
+        else
+            neighbourPosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y - 1, cubeBlockPosition.z);
+
+        if (neighbourPosition.x >= 0 && neighbourPosition.x < chunkBlocks.GetLength(0) &&
+            neighbourPosition.y >= 0 && neighbourPosition.y < chunkBlocks.GetLength(1) &&
+            neighbourPosition.z >= 0 && neighbourPosition.z < chunkBlocks.GetLength(0))
+        {
+            return chunkBlocks[neighbourPosition.x, neighbourPosition.y, neighbourPosition.z].isTransparent;
+        }
+
+        return true;
+
     }
 
     private void CreateBlockSide(BlockSideEnum side)

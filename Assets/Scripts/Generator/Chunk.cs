@@ -31,8 +31,9 @@ public class Chunk : MonoBehaviour
 
                     chunkBlocks[x, y, z] = new Block(
                         BlockTypeEnum.DIRT, 
-                        this.gameObject, 
-                        new Vector3(posX, posY, posZ), 
+                        this.gameObject,
+                        new Vector3(posX, posY, posZ),
+                        new Vector3Int(x, y, z), 
                         blockMaterial);
                 }
             }
