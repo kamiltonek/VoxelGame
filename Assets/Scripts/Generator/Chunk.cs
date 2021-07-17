@@ -1,15 +1,41 @@
 ﻿using Assets.Scripts.Enums;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Chunk : MonoBehaviour
 {
-    public Material blockMaterial;
+    public Texture2D[] atlasTextures;
     public Block[,,] chunkBlocks;
+
+    Dictionary<string, Rect> atlasDictionary = new Dictionary<string, Rect>();
+
+    private Material blockMaterial;
     void Start()
     {
+        Texture2D atlas = GetTextureAtlas();
+        Material material = new Material(Shader.Find("Standard"));
+        material.mainTexture = atlas;
+        material.SetFloat("_Glossiness", 0);
+        material.SetFloat("_SpecularHighlights", 0f);
+        blockMaterial = material;
+
         StartCoroutine(GenerateChunk(10));
+    }
+
+    private Texture2D GetTextureAtlas()
+    {
+        Texture2D textureAtlas = new Texture2D(8192, 8192);
+        Rect[] rectCoordinates = textureAtlas.PackTextures(atlasTextures, 0, 8192, false);
+        textureAtlas.Apply();
+
+        for(int i = 0; i < rectCoordinates.Length; i++)
+        {
+            atlasDictionary.Add(atlasTextures[i].name.ToLower(), rectCoordinates[i]);
+        }
+
+        return textureAtlas;
     }
 
     IEnumerator GenerateChunk(int chunkSize)
@@ -30,11 +56,11 @@ public class Chunk : MonoBehaviour
                     float posZ = z - zOffset - z * (1f - (float)(0.5 * Math.Sqrt(3)));
 
                     chunkBlocks[x, y, z] = new Block(
-                        BlockTypeEnum.DIRT, 
+                        (BlockTypeEnum)UnityEngine.Random.Range(0, 4), 
                         this.gameObject,
                         new Vector3(posX, posY, posZ),
                         new Vector3Int(x, y, z), 
-                        blockMaterial);
+                        atlasDictionary);
                 }
             }
         }

@@ -10,6 +10,7 @@ namespace Assets.Scripts.Enums
     {
         DIRT,
         AIR,
-        WATER
+        BRICK,
+        GRASS
     };
 }
