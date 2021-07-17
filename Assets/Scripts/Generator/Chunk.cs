@@ -30,12 +30,12 @@ public class Chunk
                     bool oddX = x % 2 == 0;
                     float zOffset = oddX ? 0 : (float)(0.5 * Math.Sqrt(3) / 2);
 
-                    float posX = x - (x * 0.25f);
+                    float posX = x * 0.75f;
                     float posY = y * 0.5f;
                     float posZ = z - zOffset - z * (1f - (float)(0.5 * Math.Sqrt(3)));
 
                     chunkBlocks[x, y, z] = new Block(
-                        (BlockTypeEnum)UnityEngine.Random.Range(0, 4),
+                        BlockTypeEnum.GRASS,
                         this,
                         new Vector3(posX, posY, posZ),
                         new Vector3Int(x, y, z),
