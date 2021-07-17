@@ -1,44 +1,23 @@
 ﻿using Assets.Scripts.Enums;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Chunk : MonoBehaviour
+public class Chunk
 {
-    public Texture2D[] atlasTextures;
     public Block[,,] chunkBlocks;
-
-    Dictionary<string, Rect> atlasDictionary = new Dictionary<string, Rect>();
+    public GameObject chunkObject;
 
     private Material blockMaterial;
-    void Start()
-    {
-        Texture2D atlas = GetTextureAtlas();
-        Material material = new Material(Shader.Find("Standard"));
-        material.mainTexture = atlas;
-        material.SetFloat("_Glossiness", 0);
-        material.SetFloat("_SpecularHighlights", 0f);
-        blockMaterial = material;
 
-        StartCoroutine(GenerateChunk(10));
+    public Chunk(string name, Vector3 position, Material material)
+    {
+        this.chunkObject = new GameObject(name);
+        this.chunkObject.transform.position = position;
+        this.blockMaterial = material;
+        GenerateChunk(10);
     }
 
-    private Texture2D GetTextureAtlas()
-    {
-        Texture2D textureAtlas = new Texture2D(8192, 8192);
-        Rect[] rectCoordinates = textureAtlas.PackTextures(atlasTextures, 0, 8192, false);
-        textureAtlas.Apply();
-
-        for(int i = 0; i < rectCoordinates.Length; i++)
-        {
-            atlasDictionary.Add(atlasTextures[i].name.ToLower(), rectCoordinates[i]);
-        }
-
-        return textureAtlas;
-    }
-
-    IEnumerator GenerateChunk(int chunkSize)
+    private void GenerateChunk(int chunkSize)
     {
         chunkBlocks = new Block[chunkSize, chunkSize, chunkSize];
 
@@ -50,21 +29,24 @@ public class Chunk : MonoBehaviour
                 {
                     bool oddX = x % 2 == 0;
                     float zOffset = oddX ? 0 : (float)(0.5 * Math.Sqrt(3) / 2);
-                    
+
                     float posX = x - (x * 0.25f);
                     float posY = y * 0.5f;
                     float posZ = z - zOffset - z * (1f - (float)(0.5 * Math.Sqrt(3)));
 
                     chunkBlocks[x, y, z] = new Block(
-                        (BlockTypeEnum)UnityEngine.Random.Range(0, 4), 
-                        this.gameObject,
+                        (BlockTypeEnum)UnityEngine.Random.Range(0, 4),
+                        this,
                         new Vector3(posX, posY, posZ),
-                        new Vector3Int(x, y, z), 
-                        atlasDictionary);
+                        new Vector3Int(x, y, z),
+                        World.atlasDictionary);
                 }
             }
         }
+    }
 
+    public void DrawChunk(int chunkSize)
+    {
         for (int z = 0; z < chunkSize; z++)
         {
             for (int y = 0; y < chunkSize; y++)
@@ -77,12 +59,11 @@ public class Chunk : MonoBehaviour
         }
 
         CombineSides();
-        yield return null;
     }
 
     private void CombineSides()
     {
-        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+        MeshFilter[] meshFilters = chunkObject.GetComponentsInChildren<MeshFilter>();
         CombineInstance[] combineSides = new CombineInstance[meshFilters.Length];
 
         int index = 0;
@@ -93,16 +74,16 @@ public class Chunk : MonoBehaviour
             index++;
         }
 
-        MeshFilter blockMeshFilter = (MeshFilter)this.gameObject.AddComponent(typeof(MeshFilter));
+        MeshFilter blockMeshFilter = (MeshFilter)chunkObject.AddComponent(typeof(MeshFilter));
         blockMeshFilter.mesh = new Mesh();
         blockMeshFilter.mesh.CombineMeshes(combineSides);
 
-        MeshRenderer blockMeshRenderer = (MeshRenderer)this.gameObject.AddComponent(typeof(MeshRenderer));
+        MeshRenderer blockMeshRenderer = (MeshRenderer)chunkObject.AddComponent(typeof(MeshRenderer));
         blockMeshRenderer.material = blockMaterial;
 
-        foreach (Transform side in this.transform)
+        foreach (Transform side in chunkObject.transform)
         {
-            Destroy(side.gameObject);
+            GameObject.Destroy(side.gameObject);
         }
     }
 }

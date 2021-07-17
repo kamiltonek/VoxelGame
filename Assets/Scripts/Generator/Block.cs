@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Block
 {
-    private int textureSize = 128;
     private BlockTypeEnum blockType;
     private bool isTransparent;
+    private Chunk chunkParent;
     private GameObject blockParent;
     private Vector3 blockPosition;
     private Vector3Int cubeBlockPosition;
@@ -52,13 +52,14 @@ public class Block
 
     public Block(
         BlockTypeEnum blockType, 
-        GameObject blockParent, 
+        Chunk chunkParent, 
         Vector3 blockPosition,
         Vector3Int cubeBlockPosition,
         Dictionary<string, Rect> blockUVCoordinates)
     {
         this.blockType = blockType;
-        this.blockParent = blockParent;
+        this.chunkParent = chunkParent;
+        this.blockParent = chunkParent.chunkObject;
         this.blockPosition = blockPosition;
         this.cubeBlockPosition = cubeBlockPosition;
         this.blockUVCoordinates = blockUVCoordinates;
@@ -93,7 +94,7 @@ public class Block
 
     private bool HasTransparentNeighbour(BlockSideEnum blockSide)
     {
-        Block[,,] chunkBlocks = blockParent.GetComponent<Chunk>().chunkBlocks;
+        Block[,,] chunkBlocks = chunkParent.chunkBlocks;
         Vector3Int neighbourPosition;
 
         if (blockSide == BlockSideEnum.FRONT)
