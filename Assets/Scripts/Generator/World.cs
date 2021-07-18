@@ -1,3 +1,5 @@
+using Assets.Scripts;
+using Assets.Scripts.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +16,8 @@ public class World : MonoBehaviour
     private int worldSize = 5;
     Material blockMaterial;
 
+    public static List<BlockType> blockTypes = new List<BlockType>();
+
     void Start()
     {
         Texture2D atlas = GetTextureAtlas();
@@ -22,16 +26,24 @@ public class World : MonoBehaviour
         material.SetFloat("_Glossiness", 0);
         material.SetFloat("_SpecularHighlights", 0f);
         this.blockMaterial = material;
+
+        GenerateBlockTypes();
+        GenerateWorld();
         StartCoroutine(BuildWorld());
     }
 
     IEnumerator BuildWorld()
     {
-        for (int i = 0; i < columntHeight; i++)
+        foreach(KeyValuePair<string, Chunk> chunk in chunks)
         {
-            
-        }
+            chunk.Value.DrawChunk(chunkSize);
 
+            yield return null;
+        }    
+    }
+
+    private void GenerateWorld()
+    {
         for (int z = 0; z < worldSize; z++)
         {
             for (int x = 0; x < worldSize; x++)
@@ -51,14 +63,6 @@ public class World : MonoBehaviour
             }
         }
 
-        foreach(KeyValuePair<string, Chunk> chunk in chunks)
-        {
-            chunk.Value.DrawChunk(chunkSize);
-
-            yield return null;
-        }
-
-        
     }
 
     private string GetChunkName(Vector3 chunkPosition)
@@ -80,5 +84,119 @@ public class World : MonoBehaviour
         }
 
         return textureAtlas;
+    }
+
+    private void GenerateBlockTypes()
+    {
+        BlockType dirt = new BlockType()
+        {
+            Name = "dirt",
+            IsTransparent = false,
+            EverySideSame = true
+        };
+        dirt.SideUV = SetBlockTypeUv("dirt");
+        dirt.TopUV = SetBlockTypeUv("dirt", BlockSideEnum.TOP);
+        dirt.BottomUV = dirt.TopUV;
+        blockTypes.Add(dirt);
+
+
+
+        BlockType air = new BlockType()
+        {
+            Name = "air",
+            IsTransparent = true,
+            EverySideSame = true
+        };
+        air.SideUV = SetBlockTypeUv("air");
+        air.TopUV = SetBlockTypeUv("air");
+        air.BottomUV = SetBlockTypeUv("air");
+        blockTypes.Add(air);
+
+
+
+        BlockType brick = new BlockType()
+        {
+            Name = "brick",
+            IsTransparent = false,
+            EverySideSame = true
+        };
+        brick.SideUV = SetBlockTypeUv("brick");
+        brick.TopUV = SetBlockTypeUv("brick", BlockSideEnum.TOP);
+        brick.BottomUV = brick.TopUV;
+        blockTypes.Add(brick);
+
+
+
+        BlockType grass = new BlockType()
+        {
+            Name = "grass",
+            IsTransparent = false,
+            EverySideSame = false
+        };
+        grass.SideUV = SetBlockTypeUv("grass_side");
+        grass.TopUV = SetBlockTypeUv("grass", BlockSideEnum.TOP);
+        grass.BottomUV = SetBlockTypeUv("dirt", BlockSideEnum.BOTTOM);
+        blockTypes.Add(grass);
+    }
+
+    private Vector2[] SetBlockTypeUv(string name, BlockSideEnum side = BlockSideEnum.FRONT)
+    {
+        if (name == "air")
+        {
+            return new Vector2[4]
+            {
+                new Vector2(0, 0),
+                new Vector2(1, 0),
+                new Vector2(0, 1),
+                new Vector2(1, 1)
+            };
+        }
+        else if (side != BlockSideEnum.BOTTOM && side != BlockSideEnum.TOP)
+        {
+            return new Vector2[4]
+            {
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width * 0.25f),
+                    atlasDictionary[name].y + (atlasDictionary[name].height * 0.25f)),
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width * 0.75f),
+                    atlasDictionary[name].y + (atlasDictionary[name].height * 0.25f)),
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width * 0.25f),
+                    atlasDictionary[name].y + (atlasDictionary[name].height * 0.75f)),
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width * 0.75f),
+                    atlasDictionary[name].y + (atlasDictionary[name].height * 0.75f)),
+            };
+            
+        }
+        else
+        {
+            return new Vector2[7]
+            {
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width * 0.25f),
+                    atlasDictionary[name].y),
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width * 0.75f),
+                    atlasDictionary[name].y),
+                new Vector2(
+                    atlasDictionary[name].x,
+                    atlasDictionary[name].y + (atlasDictionary[name].height * 0.5f)),
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width),
+                    atlasDictionary[name].y + (atlasDictionary[name].height * 0.5f)),
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width * 0.25f),
+                    atlasDictionary[name].y + (atlasDictionary[name].height)),
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width * 0.75f),
+                    atlasDictionary[name].y + (atlasDictionary[name].height)),
+                new Vector2(
+                    atlasDictionary[name].x + (atlasDictionary[name].width * 0.5f),
+                    atlasDictionary[name].y + (atlasDictionary[name].height * 0.5f))
+            };
+        }
+        
     }
 }

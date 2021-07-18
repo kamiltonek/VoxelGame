@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Enums
 {
-    enum BlockSideEnum 
+    public enum BlockSideEnum 
     { 
         FRONT, 
         BACK, 

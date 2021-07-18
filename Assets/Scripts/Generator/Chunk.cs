@@ -35,11 +35,10 @@ public class Chunk
                     float posZ = z - zOffset - z * (1f - (float)(0.5 * Math.Sqrt(3)));
 
                     chunkBlocks[x, y, z] = new Block(
-                        BlockTypeEnum.GRASS,
+                        World.blockTypes[3],
                         this,
                         new Vector3(posX, posY, posZ),
-                        new Vector3Int(x, y, z),
-                        World.atlasDictionary);
+                        new Vector3Int(x, y, z));
                 }
             }
         }
