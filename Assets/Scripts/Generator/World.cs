@@ -56,7 +56,7 @@ public class World : MonoBehaviour
                         x * chunkSize * 0.75f,
                         y * chunkSize * 0.5f,
                         z * chunkSize - z - z * (1f - (float)(0.5 * Math.Sqrt(3) / 2)));
-                    string chunkName = GetChunkName(chunkPosition);
+                    string chunkName = GetChunkName(x, y, z);
 
                     Chunk chunk = new Chunk(chunkName, chunkPosition, blockMaterial);
                     chunk.chunkObject.transform.parent = this.transform;
@@ -67,11 +67,9 @@ public class World : MonoBehaviour
 
     }
 
-    private string GetChunkName(Vector3 chunkPosition)
+    private string GetChunkName(int x, int y, int z)
     {
-        return (int)chunkPosition.x + "_" + 
-            (int)chunkPosition.y + "_" +
-            (int)chunkPosition.z;
+        return x + "_" + y + "_" + z;
     }
 
     private Texture2D GetTextureAtlas()
