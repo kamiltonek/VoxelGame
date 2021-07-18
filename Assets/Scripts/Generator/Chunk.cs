@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Enums;
+using Assets.Scripts.Generator;
 using System;
 using UnityEngine;
 
@@ -23,9 +24,9 @@ public class Chunk
 
         for (int z = 0; z < chunkSize; z++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int x = 0; x < chunkSize; x++)
             {
-                for (int x = 0; x < chunkSize; x++)
+                for (int y = 0; y < chunkSize; y++)
                 {
                     bool oddX = x % 2 == 0;
                     float zOffset = oddX ? 0 : (float)(0.5 * Math.Sqrt(3) / 2);
@@ -34,13 +35,38 @@ public class Chunk
                     float posY = y * 0.5f;
                     float posZ = z - zOffset - z * (1f - (float)(0.5 * Math.Sqrt(3)));
 
-                    chunkBlocks[x, y, z] = new Block(
+                    float worldX = posX + chunkObject.transform.position.x;
+                    float worldY = posY + chunkObject.transform.position.y;
+                    float worldZ = posZ + chunkObject.transform.position.z;
+                    int generatedY = (int)ChunkUtils.GenerateHeight(worldX, worldZ);
+
+                    if (worldY * 2 < generatedY)
+                    {
+                        chunkBlocks[x, y, z] = new Block(
+                        World.blockTypes[1],
+                        this,
+                        new Vector3(posX, posY, posZ),
+                        new Vector3Int(x, y, z));
+                    }
+                    else if (worldY * 2 == generatedY)
+                    {
+                        chunkBlocks[x, y, z] = new Block(
                         World.blockTypes[3],
                         this,
                         new Vector3(posX, posY, posZ),
                         new Vector3Int(x, y, z));
+                    }
+                    else
+                    {
+                        chunkBlocks[x, y, z] = new Block(
+                           World.blockTypes[0],
+                           this,
+                           new Vector3(posX, posY, posZ),
+                           new Vector3Int(x, y, z));
+
+                    }
                 }
-            }
+            }  
         }
     }
 

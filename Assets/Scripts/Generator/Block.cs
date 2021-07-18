@@ -189,7 +189,7 @@ public class Block
                 mesh.triangles = trianglesSide;
                 break;
             case BlockSideEnum.RIGHT_BACK:
-                mesh.vertices = verticesBack;
+                mesh.vertices = verticesRightBack;
                 mesh.normals = normalsRightBack;
                 mesh.uv = uvs;
                 mesh.triangles = trianglesSide;

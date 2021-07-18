@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using Assets.Scripts.Enums;
+using Assets.Scripts.Generator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ public class World : MonoBehaviour
         material.SetFloat("_Glossiness", 0);
         material.SetFloat("_SpecularHighlights", 0f);
         this.blockMaterial = material;
+        ChunkUtils.GenerateRandomOffset();
 
         GenerateBlockTypes();
         GenerateWorld();
@@ -88,19 +90,6 @@ public class World : MonoBehaviour
 
     private void GenerateBlockTypes()
     {
-        BlockType dirt = new BlockType()
-        {
-            Name = "dirt",
-            IsTransparent = false,
-            EverySideSame = true
-        };
-        dirt.SideUV = SetBlockTypeUv("dirt");
-        dirt.TopUV = SetBlockTypeUv("dirt", BlockSideEnum.TOP);
-        dirt.BottomUV = dirt.TopUV;
-        blockTypes.Add(dirt);
-
-
-
         BlockType air = new BlockType()
         {
             Name = "air",
@@ -111,6 +100,19 @@ public class World : MonoBehaviour
         air.TopUV = SetBlockTypeUv("air");
         air.BottomUV = SetBlockTypeUv("air");
         blockTypes.Add(air);
+
+
+
+        BlockType dirt = new BlockType()
+        {
+            Name = "dirt",
+            IsTransparent = false,
+            EverySideSame = true
+        };
+        dirt.SideUV = SetBlockTypeUv("dirt");
+        dirt.TopUV = SetBlockTypeUv("dirt", BlockSideEnum.TOP);
+        dirt.BottomUV = dirt.TopUV;
+        blockTypes.Add(dirt);
 
 
 
