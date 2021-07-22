@@ -6,7 +6,7 @@ namespace Assets.Scripts.Generator
     {
         static int offset = 0;
         static int maxHeight = 8;
-        static float increment = 0.175f;
+        static float increment = 0.065f;
 
         public static float GenerateHeight(float x, float z)
         {
