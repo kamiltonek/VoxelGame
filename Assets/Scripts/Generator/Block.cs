@@ -9,7 +9,6 @@ public class Block
     private BlockType blockType;
     private bool isTransparent;
     private Chunk chunkParent;
-    private GameObject blockParent;
     private Vector3 blockPosition;
     private Vector3Int cubeBlockPosition;
 
@@ -65,7 +64,6 @@ public class Block
     {
         this.blockType = blockType;
         this.chunkParent = chunkParent;
-        this.blockParent = chunkParent.chunkObject;
         this.blockPosition = blockPosition;
         this.cubeBlockPosition = cubeBlockPosition;
 
@@ -154,7 +152,7 @@ public class Block
 
         GameObject blockSide = new GameObject();
         blockSide.transform.position = blockPosition;
-        blockSide.transform.parent = blockParent.transform;
+        blockSide.transform.parent = chunkParent.chunkObject.transform;
 
         MeshFilter meshFilter = (MeshFilter)blockSide.AddComponent(typeof(MeshFilter));
         meshFilter.mesh = mesh;

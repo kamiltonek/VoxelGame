@@ -7,6 +7,7 @@ public class Chunk
 {
     public Block[,,] chunkBlocks;
     public GameObject chunkObject;
+    public ChunkStatusEnum status;
 
     private Material blockMaterial;
 
@@ -15,6 +16,7 @@ public class Chunk
         this.chunkObject = new GameObject(name);
         this.chunkObject.transform.position = position;
         this.blockMaterial = material;
+        this.status = ChunkStatusEnum.GENERATED;
         GenerateChunk(10);
     }
 
@@ -58,6 +60,7 @@ public class Chunk
                     }
                     else
                     {
+                        this.status = ChunkStatusEnum.TO_DRAW;
                         chunkBlocks[x, y, z] = new Block(
                            World.blockTypes[0],
                            this,
@@ -68,6 +71,16 @@ public class Chunk
                 }
             }  
         }
+
+        status = ChunkStatusEnum.TO_DRAW;
+
+    }
+    public void RefreshChunk(string chunkName, Vector3 chunkPosition)
+    {
+        this.chunkObject = new GameObject(chunkName);
+        this.chunkObject.transform.position = chunkPosition;
+
+        status = ChunkStatusEnum.TO_DRAW;
     }
 
     public void DrawChunk(int chunkSize)
@@ -84,6 +97,8 @@ public class Chunk
         }
 
         CombineSides();
+
+        status = ChunkStatusEnum.DRAWN;
     }
 
     private void CombineSides()
@@ -106,9 +121,12 @@ public class Chunk
         MeshRenderer blockMeshRenderer = (MeshRenderer)chunkObject.AddComponent(typeof(MeshRenderer));
         blockMeshRenderer.material = blockMaterial;
 
+        chunkObject.AddComponent(typeof(MeshCollider));
+
         foreach (Transform side in chunkObject.transform)
         {
             GameObject.Destroy(side.gameObject);
         }
     }
+
 }
