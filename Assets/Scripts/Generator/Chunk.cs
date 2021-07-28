@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Enums;
+﻿using Assets.Scripts;
+using Assets.Scripts.Enums;
 using Assets.Scripts.Generator;
 using System;
 using UnityEngine;
@@ -40,34 +41,18 @@ public class Chunk
                     float worldX = posX + chunkObject.transform.position.x;
                     float worldY = posY + chunkObject.transform.position.y;
                     float worldZ = posZ + chunkObject.transform.position.z;
-                    int generatedY = (int)ChunkUtils.GenerateHeight(worldX, worldZ);
 
-                    if (worldY * 2 < generatedY)
-                    {
-                        chunkBlocks[x, y, z] = new Block(
-                        World.blockTypes[1],
-                        this,
-                        new Vector3(posX, posY, posZ),
-                        new Vector3Int(x, y, z));
-                    }
-                    else if (worldY * 2 == generatedY)
-                    {
-                        chunkBlocks[x, y, z] = new Block(
-                        World.blockTypes[3],
-                        this,
-                        new Vector3(posX, posY, posZ),
-                        new Vector3Int(x, y, z));
-                    }
-                    else
-                    {
-                        this.status = ChunkStatusEnum.TO_DRAW;
-                        chunkBlocks[x, y, z] = new Block(
-                           World.blockTypes[0],
+                    Biome biome = BiomeUtils.SelectBiome(worldX, worldZ);
+                    BlockType biomeBlock = biome.GenerateTerrain(worldX, worldY, worldZ);
+
+                    chunkBlocks[x, y, z] = new Block(
+                           biomeBlock,
                            this,
                            new Vector3(posX, posY, posZ),
                            new Vector3Int(x, y, z));
 
-                    }
+                    this.status = ChunkStatusEnum.TO_DRAW;
+
                 }
             }  
         }

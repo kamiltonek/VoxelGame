@@ -6,9 +6,10 @@ namespace Assets.Scripts.Generator
     {
         static int offset = 0;
         static int maxHeight = 8;
-        static float increment = 0.065f;
+        static int moistureOffset = 0;
+        static int temperatureOffset = 0;
 
-        public static float GenerateHeight(float x, float z)
+        public static float GenerateHeight(float x, float z, float increment)
         {
             float height = PerlinNoise(x * increment + offset, z * increment + offset);
 
@@ -25,6 +26,16 @@ namespace Assets.Scripts.Generator
             return (to - from) * ((value - perlinFrom) / (perlinTo - perlinFrom)) + from;
         }
 
+        public static float GenerateMoisture(float x, float z, float increment = 0.05f)
+        {
+            return PerlinNoise(x * increment + moistureOffset, z * increment + moistureOffset);
+        }
+
+        public static float GenerateTemperature(float x, float z, float increment = 0.05f)
+        {
+            return PerlinNoise(x * increment + temperatureOffset, z * increment + temperatureOffset);
+        }
+
         static float PerlinNoise(float x, float z)
         {
             float height = Mathf.PerlinNoise(x, z);
@@ -34,6 +45,8 @@ namespace Assets.Scripts.Generator
         public static void GenerateRandomOffset()
         {
             offset = Random.Range(0, 1000);
+            moistureOffset = Random.Range(0, 1000);
+            temperatureOffset = Random.Range(0, 1000);
         }
     }
 }

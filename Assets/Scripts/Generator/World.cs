@@ -23,7 +23,7 @@ public class World : MonoBehaviour
     Vector2 lastPlayerPosition;
     Vector2 currentPlayerPosition;
 
-    public static List<BlockType> blockTypes = new List<BlockType>();
+    public static Dictionary<BlockName, BlockType> blockTypes = new Dictionary<BlockName, BlockType>();
 
     private void Awake()
     {
@@ -173,7 +173,7 @@ public class World : MonoBehaviour
         air.SideUV = SetBlockTypeUv("air");
         air.TopUV = SetBlockTypeUv("air");
         air.BottomUV = SetBlockTypeUv("air");
-        blockTypes.Add(air);
+        blockTypes.Add(BlockName.AIR, air);
 
 
 
@@ -186,7 +186,7 @@ public class World : MonoBehaviour
         dirt.SideUV = SetBlockTypeUv("dirt");
         dirt.TopUV = SetBlockTypeUv("dirt", BlockSideEnum.TOP);
         dirt.BottomUV = dirt.TopUV;
-        blockTypes.Add(dirt);
+        blockTypes.Add(BlockName.DIRT, dirt);
 
 
 
@@ -199,7 +199,7 @@ public class World : MonoBehaviour
         brick.SideUV = SetBlockTypeUv("brick");
         brick.TopUV = SetBlockTypeUv("brick", BlockSideEnum.TOP);
         brick.BottomUV = brick.TopUV;
-        blockTypes.Add(brick);
+        blockTypes.Add(BlockName.BRICK, brick);
 
 
 
@@ -212,7 +212,33 @@ public class World : MonoBehaviour
         grass.SideUV = SetBlockTypeUv("grass_side");
         grass.TopUV = SetBlockTypeUv("grass", BlockSideEnum.TOP);
         grass.BottomUV = SetBlockTypeUv("dirt", BlockSideEnum.BOTTOM);
-        blockTypes.Add(grass);
+        blockTypes.Add(BlockName.GRASS, grass);
+
+
+
+        BlockType snow = new BlockType()
+        {
+            Name = "snow",
+            IsTransparent = false,
+            EverySideSame = true
+        };
+        snow.SideUV = SetBlockTypeUv("snow");
+        snow.TopUV = SetBlockTypeUv("snow", BlockSideEnum.TOP);
+        snow.BottomUV = snow.TopUV;
+        blockTypes.Add(BlockName.SNOW, snow);
+
+
+
+        BlockType sand = new BlockType()
+        {
+            Name = "sand",
+            IsTransparent = false,
+            EverySideSame = true
+        };
+        sand.SideUV = SetBlockTypeUv("sand");
+        sand.TopUV = SetBlockTypeUv("sand", BlockSideEnum.TOP);
+        sand.BottomUV = sand.TopUV;
+        blockTypes.Add(BlockName.SAND, sand);
     }
 
     private Vector2[] SetBlockTypeUv(string name, BlockSideEnum side = BlockSideEnum.FRONT)
