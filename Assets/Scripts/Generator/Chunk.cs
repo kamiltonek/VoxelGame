@@ -56,14 +56,12 @@ public class Chunk
                            this,
                            new Vector3(posX, posY, posZ),
                            new Vector3Int(x, y, z));
-
-                    this.status = ChunkStatusEnum.TO_DRAW;
-
                 }
             }  
         }
 
         status = ChunkStatusEnum.TO_DRAW;
+        World.chunksToCreate.Add(this);
 
     }
     public void RefreshChunk(string chunkName, Vector3 chunkPosition)
@@ -72,6 +70,7 @@ public class Chunk
         this.chunkObject.transform.position = chunkPosition;
 
         status = ChunkStatusEnum.TO_DRAW;
+        World.chunksToCreate.Add(this);
     }
 
     public void CreateChunk(int chunkSize)
@@ -89,10 +88,11 @@ public class Chunk
             }
         }
 
-        DrawChunk();   
+        World.chunksToCreate.Remove(this);
+        World.chunksToDraw.Add(this);
     }
 
-    private void DrawChunk()
+    public void DrawChunk()
     {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
@@ -109,6 +109,7 @@ public class Chunk
         chunkObject.AddComponent(typeof(MeshCollider));
 
         status = ChunkStatusEnum.DRAWN;
+        World.chunksToDraw.Remove(this);
     }
 
 }

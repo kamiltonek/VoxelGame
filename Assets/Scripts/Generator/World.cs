@@ -25,6 +25,9 @@ public class World : MonoBehaviour
 
     public static Dictionary<BlockName, BlockType> blockTypes = new Dictionary<BlockName, BlockType>();
 
+    public static List<Chunk> chunksToCreate = new List<Chunk>();
+    public static List<Chunk> chunksToDraw = new List<Chunk>();
+
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -43,6 +46,7 @@ public class World : MonoBehaviour
         ChunkUtils.GenerateRandomOffset();
 
         GenerateBlockTypes();
+
         GenerateWorld();
         StartCoroutine(BuildWorld(true));
     }
@@ -67,16 +71,18 @@ public class World : MonoBehaviour
 
     IEnumerator BuildWorld(bool isFirst = false)
     {
-        foreach(Chunk chunk in chunks.Values.ToList())
+        foreach(Chunk chunk in chunksToCreate.ToList())
         {
-            if(chunk.status == ChunkStatusEnum.TO_DRAW)
-            {
-                chunk.CreateChunk(chunkSize);
-            }
+            chunk.CreateChunk(chunkSize);
 
             yield return null;
         }
+        foreach (Chunk chunk in chunksToDraw.ToList())
+        {
+            chunk.DrawChunk();
 
+            yield return null;
+        }
         if (isFirst)
         {
             player.SetActive(true);
