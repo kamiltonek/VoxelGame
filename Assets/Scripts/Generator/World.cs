@@ -16,7 +16,7 @@ public class World : MonoBehaviour
     private float updatePlayerPositionDelay = 0.5f;
     private int columnHeight = 1;
     private int chunkSize = 10;
-    private int worldRadius = 3;
+    private int worldRadius = 5;
     Material blockMaterial;
 
     GameObject player;
@@ -131,7 +131,6 @@ public class World : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log(chunkPosition.ToString());
                         chunk = new Chunk(chunkName, chunkPosition, blockMaterial);
                         chunk.chunkObject.transform.parent = this.transform;
                         chunks.Add(chunkName, chunk);

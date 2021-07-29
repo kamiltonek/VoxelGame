@@ -76,21 +76,21 @@ public class Block
             return;
 
         if(HasTransparentNeighbour(BlockSideEnum.FRONT))
-            CreateBlockSide(BlockSideEnum.FRONT);
+            GenerateBlockSide(BlockSideEnum.FRONT);
         if (HasTransparentNeighbour(BlockSideEnum.BACK))
-            CreateBlockSide(BlockSideEnum.BACK);
+            GenerateBlockSide(BlockSideEnum.BACK);
         if (HasTransparentNeighbour(BlockSideEnum.LEFT_BACK))
-            CreateBlockSide(BlockSideEnum.LEFT_BACK);
+            GenerateBlockSide(BlockSideEnum.LEFT_BACK);
         if (HasTransparentNeighbour(BlockSideEnum.LEFT_FRONT))
-            CreateBlockSide(BlockSideEnum.LEFT_FRONT);
+            GenerateBlockSide(BlockSideEnum.LEFT_FRONT);
         if (HasTransparentNeighbour(BlockSideEnum.RIGHT_BACK))
-            CreateBlockSide(BlockSideEnum.RIGHT_BACK);
+            GenerateBlockSide(BlockSideEnum.RIGHT_BACK);
         if (HasTransparentNeighbour(BlockSideEnum.RIGHT_FRONT))
-            CreateBlockSide(BlockSideEnum.RIGHT_FRONT);
+            GenerateBlockSide(BlockSideEnum.RIGHT_FRONT);
         if (HasTransparentNeighbour(BlockSideEnum.TOP))
-            CreateBlockSide(BlockSideEnum.TOP);
+            GenerateBlockSide(BlockSideEnum.TOP);
         if (HasTransparentNeighbour(BlockSideEnum.BOTTOM))
-            CreateBlockSide(BlockSideEnum.BOTTOM);
+            GenerateBlockSide(BlockSideEnum.BOTTOM);
     }
 
     private bool HasTransparentNeighbour(BlockSideEnum blockSide)
@@ -143,77 +143,86 @@ public class Block
 
     }
 
-    private void CreateBlockSide(BlockSideEnum side)
-    {
-        Vector2[] uvs = blockType.GetUv(side);
-
-        Mesh mesh = new Mesh();
-        mesh = GenerateBlockSide(mesh, side, uvs);
-
-        GameObject blockSide = new GameObject();
-        blockSide.transform.position = blockPosition;
-        blockSide.transform.parent = chunkParent.chunkObject.transform;
-
-        MeshFilter meshFilter = (MeshFilter)blockSide.AddComponent(typeof(MeshFilter));
-        meshFilter.mesh = mesh;
-    }
-
-    private Mesh GenerateBlockSide(Mesh mesh, BlockSideEnum side, Vector2[] uvs)
+    private void GenerateBlockSide(BlockSideEnum side)
     {
         switch (side)
         {
             case BlockSideEnum.FRONT:
-                mesh.vertices = verticesFront;
-                mesh.normals = normalsFront;
-                mesh.uv = uvs;
-                mesh.triangles = trianglesSide;
+                foreach(Vector3 vertex in verticesFront)
+                {
+                    chunkParent.vertices.Add(blockPosition + vertex);
+                }
                 break;
             case BlockSideEnum.BACK:
-                mesh.vertices = verticesBack;
-                mesh.normals = normalsBack;
-                mesh.uv = uvs;
-                mesh.triangles = trianglesSide;
+                foreach (Vector3 vertex in verticesBack)
+                {
+                    chunkParent.vertices.Add(blockPosition + vertex);
+                }
                 break;
             case BlockSideEnum.LEFT_BACK:
-                mesh.vertices = verticesLeftBack;
-                mesh.normals = normalsLeftBack;
-                mesh.uv = uvs;
-                mesh.triangles = trianglesSide;
+                foreach (Vector3 vertex in verticesLeftBack)
+                {
+                    chunkParent.vertices.Add(blockPosition + vertex);
+                }
                 break;
             case BlockSideEnum.LEFT_FRONT:
-                mesh.vertices = verticesLeftFront;
-                mesh.normals = normalsLeftFront;
-                mesh.uv = uvs;
-                mesh.triangles = trianglesSide;
+                foreach (Vector3 vertex in verticesLeftFront)
+                {
+                    chunkParent.vertices.Add(blockPosition + vertex);
+                }
                 break;
             case BlockSideEnum.RIGHT_BACK:
-                mesh.vertices = verticesRightBack;
-                mesh.normals = normalsRightBack;
-                mesh.uv = uvs;
-                mesh.triangles = trianglesSide;
+                foreach (Vector3 vertex in verticesRightBack)
+                {
+                    chunkParent.vertices.Add(blockPosition + vertex);
+                }
                 break;
             case BlockSideEnum.RIGHT_FRONT:
-                mesh.vertices = verticesRightFront;
-                mesh.normals = normalsRightFront;
-                mesh.uv = uvs; 
-                mesh.triangles = trianglesSide;
+                foreach (Vector3 vertex in verticesRightFront)
+                {
+                    chunkParent.vertices.Add(blockPosition + vertex);
+                }
                 break;
             case BlockSideEnum.TOP:
-                mesh.vertices = verticesTop;
-                mesh.normals = normalsTop;
-                mesh.uv = uvs;
-                mesh.triangles = trianglesBase;
+                foreach (Vector3 vertex in verticesTop)
+                {
+                    chunkParent.vertices.Add(blockPosition + vertex);
+                }
                 break;
             case BlockSideEnum.BOTTOM:
-                mesh.vertices = verticesBottom;
-                mesh.normals = normalsBottom;
-                mesh.uv = uvs;
-                mesh.triangles = trianglesBase;
+                foreach (Vector3 vertex in verticesBottom)
+                {
+                    chunkParent.vertices.Add(blockPosition + vertex);
+                }
                 break;
 
         }
 
-        return mesh;
+        foreach(Vector2 blockUV in blockType.GetUv(side))
+        {
+            chunkParent.uvs.Add(blockUV);
+        }
+
+        if(side == BlockSideEnum.TOP || side == BlockSideEnum.BOTTOM)
+        {
+            foreach(int triangle in trianglesBase)
+            {
+                chunkParent.triangles.Add(chunkParent.vertexIndex + triangle);
+            }
+
+            chunkParent.vertexIndex += 7;
+        }
+        else
+        {
+            foreach(int triangle in trianglesSide)
+            {
+                chunkParent.triangles.Add(chunkParent.vertexIndex + triangle);
+            }
+
+            chunkParent.vertexIndex += 4;
+        }
+
+
     }
 
 }

@@ -2,6 +2,7 @@
 using Assets.Scripts.Enums;
 using Assets.Scripts.Generator;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Chunk
@@ -11,6 +12,11 @@ public class Chunk
     public ChunkStatusEnum status;
 
     private Material blockMaterial;
+    public int vertexIndex { get; set; }
+
+    public List<Vector3> vertices = new List<Vector3>();
+    public List<int> triangles = new List<int>();
+    public List<Vector2> uvs = new List<Vector2>();
 
     public Chunk(string name, Vector3 position, Material material)
     {
@@ -70,6 +76,8 @@ public class Chunk
 
     public void DrawChunk(int chunkSize)
     {
+        vertexIndex = 0;
+
         for (int z = 0; z < chunkSize; z++)
         {
             for (int y = 0; y < chunkSize; y++)
@@ -88,30 +96,20 @@ public class Chunk
 
     private void CombineSides()
     {
-        MeshFilter[] meshFilters = chunkObject.GetComponentsInChildren<MeshFilter>();
-        CombineInstance[] combineSides = new CombineInstance[meshFilters.Length];
-
-        int index = 0;
-        foreach (MeshFilter meshFilter in meshFilters)
-        {
-            combineSides[index].mesh = meshFilter.sharedMesh;
-            combineSides[index].transform = meshFilter.transform.localToWorldMatrix;
-            index++;
-        }
+        Mesh mesh = new Mesh();
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = triangles.ToArray();
+        mesh.uv = uvs.ToArray();
+        mesh.RecalculateNormals();
 
         MeshFilter blockMeshFilter = (MeshFilter)chunkObject.AddComponent(typeof(MeshFilter));
-        blockMeshFilter.mesh = new Mesh();
-        blockMeshFilter.mesh.CombineMeshes(combineSides);
+        blockMeshFilter.mesh = mesh;
 
         MeshRenderer blockMeshRenderer = (MeshRenderer)chunkObject.AddComponent(typeof(MeshRenderer));
         blockMeshRenderer.material = blockMaterial;
 
         chunkObject.AddComponent(typeof(MeshCollider));
 
-        foreach (Transform side in chunkObject.transform)
-        {
-            GameObject.Destroy(side.gameObject);
-        }
     }
 
 }
