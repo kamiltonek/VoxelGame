@@ -74,7 +74,7 @@ public class Chunk
         status = ChunkStatusEnum.TO_DRAW;
     }
 
-    public void DrawChunk(int chunkSize)
+    public void CreateChunk(int chunkSize)
     {
         vertexIndex = 0;
 
@@ -89,12 +89,10 @@ public class Chunk
             }
         }
 
-        CombineSides();
-
-        status = ChunkStatusEnum.DRAWN;
+        DrawChunk();   
     }
 
-    private void CombineSides()
+    private void DrawChunk()
     {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
@@ -110,6 +108,7 @@ public class Chunk
 
         chunkObject.AddComponent(typeof(MeshCollider));
 
+        status = ChunkStatusEnum.DRAWN;
     }
 
 }

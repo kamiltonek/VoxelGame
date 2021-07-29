@@ -71,7 +71,7 @@ public class World : MonoBehaviour
         {
             if(chunk.status == ChunkStatusEnum.TO_DRAW)
             {
-                chunk.DrawChunk(chunkSize);
+                chunk.CreateChunk(chunkSize);
             }
 
             yield return null;
