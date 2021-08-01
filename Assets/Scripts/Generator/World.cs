@@ -16,7 +16,7 @@ public class World : MonoBehaviour
     private float updatePlayerPositionDelay = 0.5f;
     private int columnHeight = 1;
     private int chunkSize = 10;
-    private int worldRadius = 5;
+    private int worldRadius = 15;
     Material blockMaterial;
 
     GameObject player;

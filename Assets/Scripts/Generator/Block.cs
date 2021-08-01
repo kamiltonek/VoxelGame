@@ -30,11 +30,6 @@ public class Block
         new Vector3(0, -0.25f,  0)
     };
 
-    static Vector3 vectorLeftFront = new Vector3(-0.75f, 0, (float)(0.5 * Math.Sqrt(3) / 2));
-    static Vector3 vectorLeftBack = new Vector3(-0.75f, 0, (float)(-0.5 * Math.Sqrt(3) / 2));
-    static Vector3 vectorRightFront = new Vector3(0.75f, 0, (float)(-0.5 * Math.Sqrt(3) / 2));
-    static Vector3 vectorRightBack = new Vector3(0.75f, 0, (float)(0.5 * Math.Sqrt(3) / 2));
-
     static Vector3[] verticesFront = new Vector3[] { vertices[6], vertices[7], vertices[0], vertices[1] };
     static Vector3[] verticesBack = new Vector3[] { vertices[9], vertices[10], vertices[3], vertices[4] };
     static Vector3[] verticesLeftBack = new Vector3[] { vertices[10], vertices[11], vertices[4], vertices[5] };
@@ -43,15 +38,6 @@ public class Block
     static Vector3[] verticesRightFront = new Vector3[] { vertices[7], vertices[8], vertices[1], vertices[2] };
     static Vector3[] verticesTop = new Vector3[] { vertices[1], vertices[0], vertices[2], vertices[5], vertices[3], vertices[4], vertices[12] };
     static Vector3[] verticesBottom = new Vector3[] { vertices[6], vertices[7], vertices[11], vertices[8], vertices[10], vertices[9], vertices[13] };
-
-    static Vector3[] normalsFront = new Vector3[] { Vector3.forward, Vector3.forward, Vector3.forward, Vector3.forward };
-    static Vector3[] normalsBack = new Vector3[] { Vector3.back, Vector3.back, Vector3.back, Vector3.back };
-    static Vector3[] normalsLeftBack = new Vector3[] { vectorLeftBack, vectorLeftBack, vectorLeftBack, vectorLeftBack };
-    static Vector3[] normalsLeftFront = new Vector3[] { vectorLeftFront, vectorLeftFront, vectorLeftFront, vectorLeftFront };
-    static Vector3[] normalsRightBack = new Vector3[] { vectorRightBack, vectorRightBack, vectorRightBack, vectorRightBack };
-    static Vector3[] normalsRightFront = new Vector3[] { vectorRightFront, vectorRightFront, vectorRightFront, vectorRightFront };
-    static Vector3[] normalsTop = new Vector3[] { Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up, Vector3.up };
-    static Vector3[] normalsBottom = new Vector3[] { Vector3.down, Vector3.down, Vector3.down, Vector3.down, Vector3.down, Vector3.down, Vector3.down };
 
     static int[] trianglesSide = new int[] { 3, 1, 0, 0, 2, 3 };
     static int[] trianglesBase = new int[] { 0, 1, 6, 1, 3, 6, 3, 5, 6, 5, 4, 6, 4, 2, 6, 2, 0, 6 };
