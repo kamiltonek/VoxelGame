@@ -10,6 +10,7 @@ using UnityEngine;
 public class World : MonoBehaviour
 {
     public Texture2D[] atlasTextures;
+    public Texture2D[] atlasTransparentTextures;
     public static Dictionary<string, Rect> atlasDictionary = new Dictionary<string, Rect>();
     public static Dictionary<string, Chunk> chunks = new Dictionary<string, Chunk>();
 
@@ -17,7 +18,7 @@ public class World : MonoBehaviour
     private int columnHeight = 1;
     private int chunkSize = 10;
     private int worldRadius = 5;
-    Material blockMaterial;
+    Material[] blockMaterial = new Material[2];
 
     GameObject player;
     Vector2 lastPlayerPosition;
@@ -34,12 +35,21 @@ public class World : MonoBehaviour
     private void Start()
     {
         player.SetActive(false);
+
         Texture2D atlas = GetTextureAtlas();
         Material material = new Material(Shader.Find("Standard"));
         material.mainTexture = atlas;
         material.SetFloat("_Glossiness", 0);
         material.SetFloat("_SpecularHighlights", 0f);
-        this.blockMaterial = material;
+        this.blockMaterial[0] = material;
+
+        Texture2D transparentAtlas = GetTextureAtlas(true);
+        Material transparentMaterial = new Material(Shader.Find("Unlit/Transparent"));
+        transparentMaterial.mainTexture = transparentAtlas;
+        //transparentMaterial.SetFloat("_Glossiness", 0);
+        //transparentMaterial.SetFloat("_SpecularHighlights", 0f);
+        this.blockMaterial[1] = transparentMaterial;
+
         ChunkUtils.GenerateRandomOffset();
 
         GenerateBlockTypes();
@@ -147,15 +157,16 @@ public class World : MonoBehaviour
         return x + "_" + y + "_" + z;
     }
 
-    private Texture2D GetTextureAtlas()
+    private Texture2D GetTextureAtlas(bool isTransparent = false)
     {
+        Texture2D[] usedAtlas = isTransparent ? this.atlasTransparentTextures : this.atlasTextures;
         Texture2D textureAtlas = new Texture2D(8192, 8192);
-        Rect[] rectCoordinates = textureAtlas.PackTextures(atlasTextures, 0, 8192, false);
+        Rect[] rectCoordinates = textureAtlas.PackTextures(usedAtlas, 0, 8192, false);
         textureAtlas.Apply();
 
         for (int i = 0; i < rectCoordinates.Length; i++)
         {
-            atlasDictionary.Add(atlasTextures[i].name.ToLower(), rectCoordinates[i]);
+            atlasDictionary.Add(usedAtlas[i].name.ToLower(), rectCoordinates[i]);
         }
 
         return textureAtlas;
@@ -167,6 +178,7 @@ public class World : MonoBehaviour
         {
             Name = "air",
             IsTransparent = true,
+            IsTranslucent = true,
             EverySideSame = true
         };
         air.SideUV = SetBlockTypeUv("air");
@@ -174,12 +186,25 @@ public class World : MonoBehaviour
         air.BottomUV = SetBlockTypeUv("air");
         blockTypes.Add(BlockName.AIR, air);
 
+        BlockType glass = new BlockType()
+        {
+            Name = "glass",
+            IsTransparent = false,
+            IsTranslucent = true,
+            EverySideSame = true
+        };
+        glass.SideUV = SetBlockTypeUv("glass");
+        glass.TopUV = SetBlockTypeUv("glass", BlockSideEnum.TOP);
+        glass.BottomUV = glass.TopUV;
+        blockTypes.Add(BlockName.GLASS, glass);
+
 
 
         BlockType dirt = new BlockType()
         {
             Name = "dirt",
             IsTransparent = false,
+            IsTranslucent = false,
             EverySideSame = true
         };
         dirt.SideUV = SetBlockTypeUv("dirt");
@@ -193,6 +218,7 @@ public class World : MonoBehaviour
         {
             Name = "brick",
             IsTransparent = false,
+            IsTranslucent = false,
             EverySideSame = true
         };
         brick.SideUV = SetBlockTypeUv("brick");
@@ -206,6 +232,7 @@ public class World : MonoBehaviour
         {
             Name = "grass",
             IsTransparent = false,
+            IsTranslucent = false,
             EverySideSame = false
         };
         grass.SideUV = SetBlockTypeUv("grass_side");
@@ -219,6 +246,7 @@ public class World : MonoBehaviour
         {
             Name = "snow",
             IsTransparent = false,
+            IsTranslucent = false,
             EverySideSame = true
         };
         snow.SideUV = SetBlockTypeUv("snow");
@@ -232,6 +260,7 @@ public class World : MonoBehaviour
         {
             Name = "sand",
             IsTransparent = false,
+            IsTranslucent = false,
             EverySideSame = true
         };
         sand.SideUV = SetBlockTypeUv("sand");

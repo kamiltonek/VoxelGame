@@ -31,7 +31,7 @@ public abstract class Biome
 
     protected virtual BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.GRASS];
+        return World.blockTypes[BlockName.GLASS];
     }
 
     protected virtual BlockType Generate1stLayer()

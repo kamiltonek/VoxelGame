@@ -11,18 +11,19 @@ public class Chunk
     public GameObject chunkObject;
     public ChunkStatusEnum status;
 
-    private Material blockMaterial;
+    private Material[] blockMaterials;
     public int vertexIndex { get; set; }
 
     public List<Vector3> vertices = new List<Vector3>();
     public List<int> triangles = new List<int>();
+    public List<int> transparentTriangles = new List<int>();
     public List<Vector2> uvs = new List<Vector2>();
 
-    public Chunk(string name, Vector3 position, Material material)
+    public Chunk(string name, Vector3 position, Material[] material)
     {
         this.chunkObject = new GameObject(name);
         this.chunkObject.transform.position = position;
-        this.blockMaterial = material;
+        this.blockMaterials = material;
         this.status = ChunkStatusEnum.GENERATED;
         GenerateChunk(10);
     }
@@ -98,7 +99,9 @@ public class Chunk
     {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
+        mesh.subMeshCount = 2;
+        mesh.SetTriangles(triangles.ToArray(), 0);
+        mesh.SetTriangles(transparentTriangles.ToArray(), 1);
         mesh.uv = uvs.ToArray();
         mesh.RecalculateNormals();
 
@@ -106,7 +109,7 @@ public class Chunk
         blockMeshFilter.mesh = mesh;
 
         MeshRenderer blockMeshRenderer = (MeshRenderer)chunkObject.AddComponent(typeof(MeshRenderer));
-        blockMeshRenderer.material = blockMaterial;
+        blockMeshRenderer.materials = blockMaterials;
 
         chunkObject.AddComponent(typeof(MeshCollider));
 

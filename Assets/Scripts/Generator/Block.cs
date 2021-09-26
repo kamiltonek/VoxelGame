@@ -7,7 +7,6 @@ using UnityEngine;
 public class Block
 {
     private BlockType blockType;
-    private bool isTransparent;
     private Chunk chunkParent;
     private Vector3 blockPosition;
     private Vector3Int cubeBlockPosition;
@@ -66,8 +65,6 @@ public class Block
         this.chunkParent = chunkParent;
         this.blockPosition = blockPosition;
         this.cubeBlockPosition = cubeBlockPosition;
-
-        isTransparent = blockType.IsTransparent ? true : false;
     }
 
     public void CreateBlock()
@@ -136,7 +133,8 @@ public class Block
             neighbourPosition.y >= 0 && neighbourPosition.y < chunkBlocks.GetLength(1) &&
             neighbourPosition.z >= 0 && neighbourPosition.z < chunkBlocks.GetLength(2))
         {
-            return chunkBlocks[neighbourPosition.x, neighbourPosition.y, neighbourPosition.z].isTransparent;
+            return chunkBlocks[neighbourPosition.x, neighbourPosition.y, neighbourPosition.z].blockType.IsTransparent ||
+                   chunkBlocks[neighbourPosition.x, neighbourPosition.y, neighbourPosition.z].blockType.IsTranslucent;
         }
 
         return true;
@@ -207,7 +205,14 @@ public class Block
         {
             foreach(int triangle in trianglesBase)
             {
-                chunkParent.triangles.Add(chunkParent.vertexIndex + triangle);
+                if(this.blockType.IsTransparent || this.blockType.IsTranslucent)
+                {
+                    chunkParent.transparentTriangles.Add(chunkParent.vertexIndex + triangle);
+                }
+                else
+                {
+                    chunkParent.triangles.Add(chunkParent.vertexIndex + triangle);
+                }
             }
 
             chunkParent.vertexIndex += 7;
@@ -216,7 +221,14 @@ public class Block
         {
             foreach(int triangle in trianglesSide)
             {
-                chunkParent.triangles.Add(chunkParent.vertexIndex + triangle);
+                if (this.blockType.IsTransparent || this.blockType.IsTranslucent)
+                {
+                    chunkParent.transparentTriangles.Add(chunkParent.vertexIndex + triangle);
+                }
+                else
+                {
+                    chunkParent.triangles.Add(chunkParent.vertexIndex + triangle);
+                }
             }
 
             chunkParent.vertexIndex += 4;
