@@ -15,6 +15,7 @@ namespace Assets.Scripts.Enums
         GRASS,
         SNOW,
         SAND,
-        GLASS
+        GLASS,
+        WATER
     }
 }

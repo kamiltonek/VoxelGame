@@ -72,27 +72,26 @@ public class Block
         if (blockType.IsTransparent)
             return;
 
-        if(HasTransparentNeighbour(BlockSideEnum.FRONT))
+        if(HasTransparentNeighbourTest(BlockSideEnum.FRONT))
             GenerateBlockSide(BlockSideEnum.FRONT);
-        if (HasTransparentNeighbour(BlockSideEnum.BACK))
+        if (HasTransparentNeighbourTest(BlockSideEnum.BACK))
             GenerateBlockSide(BlockSideEnum.BACK);
-        if (HasTransparentNeighbour(BlockSideEnum.LEFT_BACK))
+        if (HasTransparentNeighbourTest(BlockSideEnum.LEFT_BACK))
             GenerateBlockSide(BlockSideEnum.LEFT_BACK);
-        if (HasTransparentNeighbour(BlockSideEnum.LEFT_FRONT))
+        if (HasTransparentNeighbourTest(BlockSideEnum.LEFT_FRONT))
             GenerateBlockSide(BlockSideEnum.LEFT_FRONT);
-        if (HasTransparentNeighbour(BlockSideEnum.RIGHT_BACK))
+        if (HasTransparentNeighbourTest(BlockSideEnum.RIGHT_BACK))
             GenerateBlockSide(BlockSideEnum.RIGHT_BACK);
-        if (HasTransparentNeighbour(BlockSideEnum.RIGHT_FRONT))
+        if (HasTransparentNeighbourTest(BlockSideEnum.RIGHT_FRONT))
             GenerateBlockSide(BlockSideEnum.RIGHT_FRONT);
-        if (HasTransparentNeighbour(BlockSideEnum.TOP))
+        if (HasTransparentNeighbourTest(BlockSideEnum.TOP))
             GenerateBlockSide(BlockSideEnum.TOP);
-        if (HasTransparentNeighbour(BlockSideEnum.BOTTOM))
-            GenerateBlockSide(BlockSideEnum.BOTTOM);
+        //if (HasTransparentNeighbour(BlockSideEnum.BOTTOM))
+           //GenerateBlockSide(BlockSideEnum.BOTTOM);
     }
 
     private bool HasTransparentNeighbour(BlockSideEnum blockSide)
     {
-        Block[,,] chunkBlocks = chunkParent.chunkBlocks;
         Vector3Int neighbourPosition;
 
         if (blockSide == BlockSideEnum.FRONT)
@@ -129,15 +128,188 @@ public class Block
         else
             neighbourPosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y - 1, cubeBlockPosition.z);
 
-        if (neighbourPosition.x >= 0 && neighbourPosition.x < chunkBlocks.GetLength(0) &&
-            neighbourPosition.y >= 0 && neighbourPosition.y < chunkBlocks.GetLength(1) &&
-            neighbourPosition.z >= 0 && neighbourPosition.z < chunkBlocks.GetLength(2))
+        Block[,,] chunkBlocks = chunkParent.chunkBlocks;
+
+        if(neighbourPosition.x < 0 || neighbourPosition.x >= World.chunkSize ||
+           neighbourPosition.y < 0 || neighbourPosition.y >= World.chunkSize ||
+           neighbourPosition.z < 0 || neighbourPosition.z >= World.chunkSize)
         {
-            return chunkBlocks[neighbourPosition.x, neighbourPosition.y, neighbourPosition.z].blockType.IsTransparent ||
-                   chunkBlocks[neighbourPosition.x, neighbourPosition.y, neighbourPosition.z].blockType.IsTranslucent;
+
+
+            Vector3 neighbourChunkPosition = this.chunkParent.chunkObject.transform.position;
+            neighbourChunkPosition.x += (neighbourPosition.x - blockPosition.x) * World.chunkSize;
+            neighbourChunkPosition.y += (neighbourPosition.y - blockPosition.y) * World.chunkSize;
+            neighbourChunkPosition.z += (neighbourPosition.z - blockPosition.z) * World.chunkSize;
+
+            neighbourChunkPosition.x = neighbourChunkPosition.x / 10 / 0.75f;
+            neighbourChunkPosition.y = neighbourChunkPosition.y / 10 / 0.5f;
+            neighbourChunkPosition.z = neighbourChunkPosition.z / 10 / (float)(Math.Sqrt(3)) / 2;
+
+            string neighbourChunkName = World.GetChunkName((int)neighbourChunkPosition.x, (int)neighbourChunkPosition.y, (int)neighbourChunkPosition.z);
+
+            if(World.chunks.TryGetValue(neighbourChunkName, out Chunk neighbourChunk))
+            {
+                chunkBlocks = neighbourChunk.chunkBlocks;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        return true;
+        if (neighbourPosition.x < 0) neighbourPosition.x = World.chunkSize - 1;
+        if (neighbourPosition.y < 0) neighbourPosition.y = World.chunkSize - 1;
+        if (neighbourPosition.z < 0) neighbourPosition.z = World.chunkSize - 1;
+        if (neighbourPosition.x >= World.chunkSize) neighbourPosition.x = 0;
+        if (neighbourPosition.y >= World.chunkSize) neighbourPosition.y = 0;
+        if (neighbourPosition.z >= World.chunkSize) neighbourPosition.z = 0;
+
+        var neighbourBlockType = chunkBlocks[(int)neighbourPosition.x, (int)neighbourPosition.y, (int)neighbourPosition.z].blockType;
+
+        if(neighbourBlockType.IsTranslucent && !neighbourBlockType.IsTransparent && this.blockType.IsTranslucent)
+        {
+            return false;
+        }
+
+        return neighbourBlockType.IsTransparent || neighbourBlockType.IsTranslucent;
+
+    }
+
+    private bool HasTransparentNeighbourTest(BlockSideEnum blockSide)
+    {
+        if(blockType.IsLiquid && blockSide != BlockSideEnum.TOP)
+        {
+            return false;
+        }
+
+        Vector3Int neighbourCubePosition;
+        Vector3 neighbourPosition = this.blockPosition + chunkParent.chunkObject.transform.position;
+
+        if (blockSide == BlockSideEnum.FRONT)
+        {
+            neighbourCubePosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y, cubeBlockPosition.z - 1);
+
+            if(neighbourCubePosition.z == -1)
+            {
+                neighbourPosition.z -= (float)(Math.Sqrt(3)) / 2;
+            }
+        }
+        else if (blockSide == BlockSideEnum.BACK)
+        {
+            neighbourCubePosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y, cubeBlockPosition.z + 1);
+
+            if (neighbourCubePosition.z == World.chunkSize)
+            {
+                neighbourPosition.z += (float)(Math.Sqrt(3)) / 2;
+            }
+        }
+        else if (blockSide == BlockSideEnum.LEFT_BACK)
+        {
+            neighbourCubePosition = cubeBlockPosition.x % 2 == 0
+                ? new Vector3Int(cubeBlockPosition.x - 1, cubeBlockPosition.y, cubeBlockPosition.z + 1)
+                : new Vector3Int(cubeBlockPosition.x - 1, cubeBlockPosition.y, cubeBlockPosition.z);
+
+            if (neighbourCubePosition.x == -1 || neighbourCubePosition.z == World.chunkSize)
+            {
+                neighbourPosition.z += 0.5f * (float)(Math.Sqrt(3)) / 2;
+                neighbourPosition.x -= 0.75f;
+            }
+        }
+        else if (blockSide == BlockSideEnum.LEFT_FRONT)
+        {
+            neighbourCubePosition = cubeBlockPosition.x % 2 == 0
+                ? new Vector3Int(cubeBlockPosition.x - 1, cubeBlockPosition.y, cubeBlockPosition.z)
+                : new Vector3Int(cubeBlockPosition.x - 1, cubeBlockPosition.y, cubeBlockPosition.z - 1);
+
+            if(neighbourCubePosition.x == -1 || neighbourCubePosition.z == -1)
+            {
+                neighbourPosition.z -= 0.5f * (float)(Math.Sqrt(3)) / 2;
+                neighbourPosition.x -= 0.75f;
+            }
+        }
+
+        else if (blockSide == BlockSideEnum.RIGHT_BACK)
+        {
+            neighbourCubePosition = cubeBlockPosition.x % 2 == 0
+                ? new Vector3Int(cubeBlockPosition.x + 1, cubeBlockPosition.y, cubeBlockPosition.z + 1)
+                : new Vector3Int(cubeBlockPosition.x + 1, cubeBlockPosition.y, cubeBlockPosition.z);
+
+            if (neighbourCubePosition.x == World.chunkSize || neighbourCubePosition.z == World.chunkSize)
+            {
+                neighbourPosition.z += 0.5f * (float)(Math.Sqrt(3)) / 2;
+                neighbourPosition.x += 0.75f;
+            }
+        }
+        else if (blockSide == BlockSideEnum.RIGHT_FRONT)
+        {
+            neighbourCubePosition = cubeBlockPosition.x % 2 == 0
+                ? new Vector3Int(cubeBlockPosition.x + 1, cubeBlockPosition.y, cubeBlockPosition.z)
+                : new Vector3Int(cubeBlockPosition.x + 1, cubeBlockPosition.y, cubeBlockPosition.z - 1);
+
+            if (neighbourCubePosition.x == World.chunkSize || neighbourCubePosition.z == -1)
+            {
+                neighbourPosition.z -= 0.5f * (float)(Math.Sqrt(3)) / 2;
+                neighbourPosition.x += 0.75f;
+            }
+        }
+        else if (blockSide == BlockSideEnum.TOP)
+        {
+            neighbourCubePosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y + 1, cubeBlockPosition.z);
+        }
+        else
+        {
+            neighbourCubePosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y - 1, cubeBlockPosition.z);
+        }
+
+        
+
+        Block[,,] chunkBlocks = chunkParent.chunkBlocks;
+
+        if (neighbourCubePosition.x < 0 || neighbourCubePosition.x >= World.chunkSize ||
+           neighbourCubePosition.y < 0 || neighbourCubePosition.y >= World.chunkSize ||
+           neighbourCubePosition.z < 0 || neighbourCubePosition.z >= World.chunkSize)
+        {
+            Biome biome = BiomeUtils.SelectBiome(neighbourPosition.x, neighbourPosition.z);
+            BlockType biomeBlock = biome.GenerateTerrain(neighbourPosition.x, neighbourPosition.y, neighbourPosition.z);
+
+            return biomeBlock.IsTranslucent || biomeBlock.IsTranslucent;
+
+            /*Vector3 neighbourChunkPosition = this.chunkParent.chunkObject.transform.position;
+            neighbourChunkPosition.x += (neighbourCubePosition.x - blockPosition.x) * World.chunkSize;
+            neighbourChunkPosition.y += (neighbourCubePosition.y - blockPosition.y) * World.chunkSize;
+            neighbourChunkPosition.z += (neighbourCubePosition.z - blockPosition.z) * World.chunkSize;
+
+            neighbourChunkPosition.x = neighbourChunkPosition.x / 10 / 0.75f;
+            neighbourChunkPosition.y = neighbourChunkPosition.y / 10 / 0.5f;
+            neighbourChunkPosition.z = neighbourChunkPosition.z / 10 / (float)(Math.Sqrt(3)) / 2;
+
+            string neighbourChunkName = World.GetChunkName((int)neighbourChunkPosition.x, (int)neighbourChunkPosition.y, (int)neighbourChunkPosition.z);
+
+            if (World.chunks.TryGetValue(neighbourChunkName, out Chunk neighbourChunk))
+            {
+                chunkBlocks = neighbourChunk.chunkBlocks;
+            }
+            else
+            {
+                return false;
+            }*/
+        }
+
+        if (neighbourCubePosition.x < 0) neighbourCubePosition.x = World.chunkSize - 1;
+        if (neighbourCubePosition.y < 0) neighbourCubePosition.y = World.chunkSize - 1;
+        if (neighbourCubePosition.z < 0) neighbourCubePosition.z = World.chunkSize - 1;
+        if (neighbourCubePosition.x >= World.chunkSize) neighbourCubePosition.x = 0;
+        if (neighbourCubePosition.y >= World.chunkSize) neighbourCubePosition.y = 0;
+        if (neighbourCubePosition.z >= World.chunkSize) neighbourCubePosition.z = 0;
+
+        var neighbourBlockType = chunkBlocks[(int)neighbourCubePosition.x, (int)neighbourCubePosition.y, (int)neighbourCubePosition.z].blockType;
+
+        if (neighbourBlockType.IsTranslucent && !neighbourBlockType.IsTransparent && this.blockType.IsTranslucent)
+        {
+            return false;
+        }
+
+        return neighbourBlockType.IsTransparent || neighbourBlockType.IsTranslucent;
 
     }
 
@@ -205,7 +377,11 @@ public class Block
         {
             foreach(int triangle in trianglesBase)
             {
-                if(this.blockType.IsTransparent || this.blockType.IsTranslucent)
+                if (this.blockType.IsLiquid)
+                {
+                    chunkParent.liquidTriangles.Add(chunkParent.vertexIndex + triangle);
+                }
+                else if(this.blockType.IsTransparent || this.blockType.IsTranslucent)
                 {
                     chunkParent.transparentTriangles.Add(chunkParent.vertexIndex + triangle);
                 }
@@ -221,7 +397,11 @@ public class Block
         {
             foreach(int triangle in trianglesSide)
             {
-                if (this.blockType.IsTransparent || this.blockType.IsTranslucent)
+                if (this.blockType.IsLiquid)
+                {
+                    chunkParent.liquidTriangles.Add(chunkParent.vertexIndex + triangle);
+                }
+                else if (this.blockType.IsTransparent || this.blockType.IsTranslucent)
                 {
                     chunkParent.transparentTriangles.Add(chunkParent.vertexIndex + triangle);
                 }

@@ -16,7 +16,7 @@ public class World : MonoBehaviour
 
     private float updatePlayerPositionDelay = 0.5f;
     private int columnHeight = 1;
-    private int chunkSize = 10;
+    public static int chunkSize = 10;
     private int worldRadius = 5;
     Material[] blockMaterial = new Material[2];
 
@@ -152,7 +152,7 @@ public class World : MonoBehaviour
 
     }
 
-    private string GetChunkName(int x, int y, int z)
+    public static string GetChunkName(int x, int y, int z)
     {
         return x + "_" + y + "_" + z;
     }
@@ -179,6 +179,7 @@ public class World : MonoBehaviour
             Name = "air",
             IsTransparent = true,
             IsTranslucent = true,
+            IsLiquid = false,
             EverySideSame = true
         };
         air.SideUV = SetBlockTypeUv("air");
@@ -191,6 +192,7 @@ public class World : MonoBehaviour
             Name = "glass",
             IsTransparent = false,
             IsTranslucent = true,
+            IsLiquid = false,
             EverySideSame = true
         };
         glass.SideUV = SetBlockTypeUv("glass");
@@ -198,6 +200,18 @@ public class World : MonoBehaviour
         glass.BottomUV = glass.TopUV;
         blockTypes.Add(BlockName.GLASS, glass);
 
+        BlockType water = new BlockType()
+        {
+            Name = "water",
+            IsTransparent = false,
+            IsTranslucent = true,
+            IsLiquid = true,
+            EverySideSame = true
+        };
+        water.SideUV = SetBlockTypeUv("water");
+        water.TopUV = SetBlockTypeUv("water", BlockSideEnum.TOP);
+        water.BottomUV = glass.TopUV;
+        blockTypes.Add(BlockName.WATER, water);
 
 
         BlockType dirt = new BlockType()
@@ -205,6 +219,7 @@ public class World : MonoBehaviour
             Name = "dirt",
             IsTransparent = false,
             IsTranslucent = false,
+            IsLiquid = false,
             EverySideSame = true
         };
         dirt.SideUV = SetBlockTypeUv("dirt");
@@ -219,6 +234,7 @@ public class World : MonoBehaviour
             Name = "brick",
             IsTransparent = false,
             IsTranslucent = false,
+            IsLiquid = false,
             EverySideSame = true
         };
         brick.SideUV = SetBlockTypeUv("brick");
@@ -233,6 +249,7 @@ public class World : MonoBehaviour
             Name = "grass",
             IsTransparent = false,
             IsTranslucent = false,
+            IsLiquid = false,
             EverySideSame = false
         };
         grass.SideUV = SetBlockTypeUv("grass_side");
@@ -247,6 +264,7 @@ public class World : MonoBehaviour
             Name = "snow",
             IsTransparent = false,
             IsTranslucent = false,
+            IsLiquid = false,
             EverySideSame = true
         };
         snow.SideUV = SetBlockTypeUv("snow");
@@ -261,6 +279,7 @@ public class World : MonoBehaviour
             Name = "sand",
             IsTransparent = false,
             IsTranslucent = false,
+            IsLiquid = false,
             EverySideSame = true
         };
         sand.SideUV = SetBlockTypeUv("sand");

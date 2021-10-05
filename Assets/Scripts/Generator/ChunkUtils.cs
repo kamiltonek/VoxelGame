@@ -5,7 +5,7 @@ namespace Assets.Scripts.Generator
     public class ChunkUtils
     {
         static int offset = 0;
-        static int maxHeight = 8;
+        static int maxHeight = 10;
         static int moistureOffset = 0;
         static int temperatureOffset = 0;
 
@@ -13,7 +13,7 @@ namespace Assets.Scripts.Generator
         {
             float height = PerlinNoise(x * increment + offset, z * increment + offset);
 
-            return Map(1, maxHeight, height);
+            return Map(0, maxHeight, height);
         }
 
         static float Map(float from, float to, float value, float perlinFrom = 0, float perlinTo = 1)
@@ -44,7 +44,8 @@ namespace Assets.Scripts.Generator
 
         public static void GenerateRandomOffset()
         {
-            offset = Random.Range(0, 1000);
+            //offset = Random.Range(0, 1000);
+            offset = 1000;
             moistureOffset = Random.Range(0, 1000);
             temperatureOffset = Random.Range(0, 1000);
         }

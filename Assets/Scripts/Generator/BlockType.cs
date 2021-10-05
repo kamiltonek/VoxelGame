@@ -13,6 +13,7 @@ namespace Assets.Scripts
         public string Name { get; set; }
         public bool IsTransparent { get; set; }
         public bool IsTranslucent { get; set; }
+        public bool IsLiquid { get; set; }
         public bool EverySideSame { get; set; }
         public Vector2[] TopUV { get; set; }
         public Vector2[] SideUV { get; set; }
@@ -29,5 +30,6 @@ namespace Assets.Scripts
             return this.BottomUV;
 
         }
+
     }
 }
