@@ -15,9 +15,9 @@ public class World : MonoBehaviour
     public static Dictionary<string, Chunk> chunks = new Dictionary<string, Chunk>();
 
     private float updatePlayerPositionDelay = 0.5f;
-    private int columnHeight = 1;
+    private int columnHeight = 2;
     public static int chunkSize = 10;
-    private int worldRadius = 5;
+    private int worldRadius = 6;
     Material[] blockMaterial = new Material[2];
 
     GameObject player;
@@ -286,6 +286,126 @@ public class World : MonoBehaviour
         sand.TopUV = SetBlockTypeUv("sand", BlockSideEnum.TOP);
         sand.BottomUV = sand.TopUV;
         blockTypes.Add(BlockName.SAND, sand);
+
+        // Biomes
+
+        BlockType grasslandBlock = new BlockType()
+        {
+            Name = "grasslandblock",
+            IsTransparent = false,
+            IsTranslucent = false,
+            IsLiquid = false,
+            EverySideSame = true
+        };
+        grasslandBlock.SideUV = SetBlockTypeUv("grasslandblock");
+        grasslandBlock.TopUV = SetBlockTypeUv("grasslandblock", BlockSideEnum.TOP);
+        grasslandBlock.BottomUV = grasslandBlock.TopUV;
+        blockTypes.Add(BlockName.GRASSLAND_BLOCK, grasslandBlock);
+
+        BlockType iceBlock = new BlockType()
+        {
+            Name = "iceblock",
+            IsTransparent = false,
+            IsTranslucent = false,
+            IsLiquid = false,
+            EverySideSame = true
+        };
+        iceBlock.SideUV = SetBlockTypeUv("iceblock");
+        iceBlock.TopUV = SetBlockTypeUv("iceblock", BlockSideEnum.TOP);
+        iceBlock.BottomUV = iceBlock.TopUV;
+        blockTypes.Add(BlockName.ICE_BLOCK, iceBlock);
+
+        BlockType jungleBlock = new BlockType()
+        {
+            Name = "jungleblock",
+            IsTransparent = false,
+            IsTranslucent = false,
+            IsLiquid = false,
+            EverySideSame = true
+        };
+        jungleBlock.SideUV = SetBlockTypeUv("jungleblock");
+        jungleBlock.TopUV = SetBlockTypeUv("jungleblock", BlockSideEnum.TOP);
+        jungleBlock.BottomUV = jungleBlock.TopUV;
+        blockTypes.Add(BlockName.JUNGLE_BLOCK, jungleBlock);
+
+        BlockType beachBlock = new BlockType()
+        {
+            Name = "beachblock",
+            IsTransparent = false,
+            IsTranslucent = false,
+            IsLiquid = false,
+            EverySideSame = true
+        };
+        beachBlock.SideUV = SetBlockTypeUv("beachblock");
+        beachBlock.TopUV = SetBlockTypeUv("beachblock", BlockSideEnum.TOP);
+        beachBlock.BottomUV = beachBlock.TopUV;
+        blockTypes.Add(BlockName.BEACH_BLOCK, beachBlock);
+
+        BlockType savannaBlock = new BlockType()
+        {
+            Name = "savannablock",
+            IsTransparent = false,
+            IsTranslucent = false,
+            IsLiquid = false,
+            EverySideSame = true
+        };
+        savannaBlock.SideUV = SetBlockTypeUv("savannablock");
+        savannaBlock.TopUV = SetBlockTypeUv("savannablock", BlockSideEnum.TOP);
+        savannaBlock.BottomUV = savannaBlock.TopUV;
+        blockTypes.Add(BlockName.SAVANNA_BLOCK, savannaBlock);
+
+        BlockType snowBlock = new BlockType()
+        {
+            Name = "snowblock",
+            IsTransparent = false,
+            IsTranslucent = false,
+            IsLiquid = false,
+            EverySideSame = true
+        };
+        snowBlock.SideUV = SetBlockTypeUv("snowblock");
+        snowBlock.TopUV = SetBlockTypeUv("snowblock", BlockSideEnum.TOP);
+        snowBlock.BottomUV = snowBlock.TopUV;
+        blockTypes.Add(BlockName.SNOW_BLOCK, snowBlock);
+
+        BlockType tajgaBlock = new BlockType()
+        {
+            Name = "tajgablock",
+            IsTransparent = false,
+            IsTranslucent = false,
+            IsLiquid = false,
+            EverySideSame = true
+        };
+        tajgaBlock.SideUV = SetBlockTypeUv("tajgablock");
+        tajgaBlock.TopUV = SetBlockTypeUv("tajgablock", BlockSideEnum.TOP);
+        tajgaBlock.BottomUV = tajgaBlock.TopUV;
+        blockTypes.Add(BlockName.TAJGA_BLOCK, tajgaBlock);
+
+        BlockType tundraBlock = new BlockType()
+        {
+            Name = "tundrablock",
+            IsTransparent = false,
+            IsTranslucent = false,
+            IsLiquid = false,
+            EverySideSame = true
+        };
+        tundraBlock.SideUV = SetBlockTypeUv("tundrablock");
+        tundraBlock.TopUV = SetBlockTypeUv("tundrablock", BlockSideEnum.TOP);
+        tundraBlock.BottomUV = tundraBlock.TopUV;
+        blockTypes.Add(BlockName.TUNDRA_BLOCK, tundraBlock);
+
+        BlockType desertBlock = new BlockType()
+        {
+            Name = "desertblock",
+            IsTransparent = false,
+            IsTranslucent = false,
+            IsLiquid = false,
+            EverySideSame = true
+        };
+        desertBlock.SideUV = SetBlockTypeUv("desertblock");
+        desertBlock.TopUV = SetBlockTypeUv("desertblock", BlockSideEnum.TOP);
+        desertBlock.BottomUV = desertBlock.TopUV;
+        blockTypes.Add(BlockName.DESERT_BLOCK, desertBlock);
+
     }
 
     private Vector2[] SetBlockTypeUv(string name, BlockSideEnum side = BlockSideEnum.FRONT)

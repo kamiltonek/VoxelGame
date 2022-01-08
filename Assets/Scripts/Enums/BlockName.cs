@@ -16,6 +16,15 @@ namespace Assets.Scripts.Enums
         SNOW,
         SAND,
         GLASS,
-        WATER
+        WATER,
+        DESERT_BLOCK,
+        GRASSLAND_BLOCK,
+        ICE_BLOCK,
+        JUNGLE_BLOCK,
+        SAVANNA_BLOCK,
+        SNOW_BLOCK,
+        TAJGA_BLOCK,
+        TUNDRA_BLOCK,
+        BEACH_BLOCK
     }
 }

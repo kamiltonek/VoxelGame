@@ -252,6 +252,16 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 553953ca314f9f24697878823e8fe75c, type: 3}
   - {fileID: 2800000, guid: 335f6b59ec856894db8428e8c296ea31, type: 3}
   - {fileID: 2800000, guid: 38f56096a5433d641b7a0361db990139, type: 3}
+  - {fileID: 2800000, guid: 4b3066573d52ff143b0f06bfdae54ee8, type: 3}
+  - {fileID: 2800000, guid: 8f81027abc69a18489b291992eaf9916, type: 3}
+  - {fileID: 2800000, guid: b1a629f85ede3e946a7c24b9088ec599, type: 3}
+  - {fileID: 2800000, guid: 2a61b536e8b01fc4c9e693e43ed21143, type: 3}
+  - {fileID: 2800000, guid: eba68c25f8b5b304185a294e54c551c2, type: 3}
+  - {fileID: 2800000, guid: 628c4fd53c69b0a438b3a7f4b58595f5, type: 3}
+  - {fileID: 2800000, guid: b7d60d2172792f344b651ea43eb2c780, type: 3}
+  - {fileID: 2800000, guid: e7fc80de0f687484a840bbbdc9b7df4b, type: 3}
+  - {fileID: 2800000, guid: 0d7ec0fc1c58a1b4a8f6f59719259fea, type: 3}
+  - {fileID: 2800000, guid: b7011d2a3719fe142a62e239953b9766, type: 3}
   atlasTransparentTextures:
   - {fileID: 2800000, guid: 8bdaf05c5a3407f49bc1ea409ba70af2, type: 3}
   - {fileID: 2800000, guid: 9623d4a7ae10f0145bc17cccae23aef6, type: 3}

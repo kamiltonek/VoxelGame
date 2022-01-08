@@ -1,15 +1,13 @@
 using Assets.Scripts;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Generator;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public abstract class Biome
 {
-    public virtual float layerIncrement { get { return 0.09f; } }
-    public virtual float waterLayerY { get { return 5; } }
+    public virtual float layerIncrement { get { return 0.02f; } }
+    public virtual float waterLayerY { get { return 4; } }
+    public virtual int minHeight { get { return 4; } }
+    public virtual int maxHeight { get { return 8; } }
 
     protected int generatedY;
 
@@ -27,7 +25,7 @@ public abstract class Biome
             return Generate1stLayer();
         }
 
-        if(y * 2 < waterLayerY)
+        if(y * 2 <= waterLayerY)
         {
             return GenerateWaterLayer();
         }
@@ -52,6 +50,12 @@ public abstract class Biome
 
     protected virtual void GenerateTerrainValues(float x, float z)
     {
-        generatedY = (int)ChunkUtils.GenerateHeight(x, z, layerIncrement);
+        generatedY = (int)ChunkUtils.GenerateHeight(x, z, layerIncrement, minHeight, maxHeight);
+        //generatedY = 16;
+    }
+
+    public virtual BiomeNameEnum GetBiomeName()
+    {
+        return BiomeNameEnum.UNDEFINED;
     }
 }
