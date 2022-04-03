@@ -3,6 +3,10 @@ using Assets.Scripts.Enums;
 
 public class Jungle : Biome
 {
+    public Jungle(float waterDistance) : base(waterDistance)
+    {
+    }
+
     protected override BlockType GenerateSurface()
     {
         return World.blockTypes[BlockName.JUNGLE_BLOCK];

@@ -10,6 +10,16 @@ public abstract class Biome
     public virtual int maxHeight { get { return 8; } }
 
     protected int generatedY;
+    // Parametr okreœlaj¹cy odleg³oœæ od zbiorników wodnych
+    // (-) woda
+    // (+) l¹d
+    private float waterDistance { get; }
+
+    protected Biome(float waterDistance)
+    {
+        this.waterDistance = waterDistance;
+    }
+
 
     public virtual BlockType GenerateTerrain(float x, float y, float z)
     {
@@ -50,7 +60,7 @@ public abstract class Biome
 
     protected virtual void GenerateTerrainValues(float x, float z)
     {
-        generatedY = (int)ChunkUtils.GenerateHeight(x, z, layerIncrement, minHeight, maxHeight);
+        generatedY = (int)ChunkUtils.GenerateHeight(x, z, layerIncrement, minHeight, maxHeight, waterDistance);
         //generatedY = 16;
     }
 

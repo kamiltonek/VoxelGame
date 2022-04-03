@@ -9,16 +9,27 @@ namespace Assets.Scripts.Generator
         static int temperatureOffset = 0;
         static int waterNoiseOffset = 0;
 
-        public static float GenerateHeight(float x, float z, float increment, int minHeight, int maxHeight)
+        public static float GenerateHeight(float x, float z, float increment, int minHeight, int maxHeight, float waterDistance)
         {
             float inc1 = 0.07f;
             float inc2 = 0.25f;
             float val1 = PerlinNoise(x * inc1 + waterNoiseOffset, z * inc1 + waterNoiseOffset) * 0.75f;
             float val2 = PerlinNoise(x * inc2 + waterNoiseOffset, z * inc2 + waterNoiseOffset) * 0.25f;
+            float val3 = val1 + val2;
+
+            if(waterDistance > 0 && waterDistance < 0.05f)
+            {
+                val3 -= Map(0, 0.3f, 1f - (waterDistance * (1f / 0.03f)));
+            }
+            else if(waterDistance < 0 && waterDistance > -0.05f)
+            {
+                val3 += Map(0, 0.3f, 1f - (-waterDistance * (1f / 0.03f)));
+            }
+
 
             //float height = PerlinNoise(x * increment + offset, z * increment + offset);
 
-            return Map(minHeight, maxHeight, val1 + val2);
+            return Map(minHeight, maxHeight, val3);
         }
 
         static float Map(float from, float to, float value, float perlinFrom = 0, float perlinTo = 1)

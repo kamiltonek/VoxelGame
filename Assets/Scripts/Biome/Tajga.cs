@@ -3,6 +3,10 @@ using Assets.Scripts.Enums;
 
 public class Tajga : Biome
 {
+    public Tajga(float waterDistance) : base(waterDistance)
+    {
+    }
+
     protected override BlockType GenerateSurface()
     {
         return World.blockTypes[BlockName.TAJGA_BLOCK];

@@ -3,6 +3,9 @@ using Assets.Scripts.Enums;
 
 public class River : Biome
 {
+    public River(float waterDistance) : base(waterDistance)
+    {
+    }
 
     public override int minHeight { get { return 0; } }
 
