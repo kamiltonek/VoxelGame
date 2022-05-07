@@ -11,11 +11,11 @@ namespace Assets.Scripts.Enums
     {
         AIR, 
         DIRT, 
-        BRICK, 
+        //BRICK, 
         GRASS,
-        SNOW,
+        //SNOW,
         SAND,
-        GLASS,
+        //GLASS,
         WATER,
         DESERT_BLOCK,
         GRASSLAND_BLOCK,
@@ -25,6 +25,6 @@ namespace Assets.Scripts.Enums
         SNOW_BLOCK,
         TAJGA_BLOCK,
         TUNDRA_BLOCK,
-        BEACH_BLOCK
+        //BEACH_BLOCK
     }
 }

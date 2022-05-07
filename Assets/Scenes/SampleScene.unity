@@ -123,6 +123,102 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &266797293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 266797297}
+  - component: {fileID: 266797296}
+  - component: {fileID: 266797295}
+  - component: {fileID: 266797294}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!65 &266797294
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266797293}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &266797295
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266797293}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: d8d52d2adfadabf4f9107281a6410940, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &266797296
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266797293}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &266797297
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266797293}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.864538, y: 4.12519, z: -25.353142}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,25 +342,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atlasTextures:
-  - {fileID: 2800000, guid: 3d6015f4e24de024bb046f83ceffefdf, type: 3}
-  - {fileID: 2800000, guid: 516f4717d45d9c641beb66adc4419e78, type: 3}
-  - {fileID: 2800000, guid: 858fd11fae7238446abf6598ad59b61c, type: 3}
-  - {fileID: 2800000, guid: 553953ca314f9f24697878823e8fe75c, type: 3}
-  - {fileID: 2800000, guid: 053f5cd199a69a945be2ef0d19141db6, type: 3}
-  - {fileID: 2800000, guid: 38f56096a5433d641b7a0361db990139, type: 3}
-  - {fileID: 2800000, guid: 4b3066573d52ff143b0f06bfdae54ee8, type: 3}
-  - {fileID: 2800000, guid: 8f81027abc69a18489b291992eaf9916, type: 3}
-  - {fileID: 2800000, guid: b1a629f85ede3e946a7c24b9088ec599, type: 3}
-  - {fileID: 2800000, guid: 2a61b536e8b01fc4c9e693e43ed21143, type: 3}
-  - {fileID: 2800000, guid: eba68c25f8b5b304185a294e54c551c2, type: 3}
-  - {fileID: 2800000, guid: 628c4fd53c69b0a438b3a7f4b58595f5, type: 3}
-  - {fileID: 2800000, guid: b7d60d2172792f344b651ea43eb2c780, type: 3}
-  - {fileID: 2800000, guid: e7fc80de0f687484a840bbbdc9b7df4b, type: 3}
-  - {fileID: 2800000, guid: 0d7ec0fc1c58a1b4a8f6f59719259fea, type: 3}
-  - {fileID: 2800000, guid: b7011d2a3719fe142a62e239953b9766, type: 3}
+  - {fileID: 2800000, guid: e22415d295a2dda46b0cc6493c617ee4, type: 3}
+  - {fileID: 2800000, guid: 770e6da82366f0c46a38ae5a4ef7053c, type: 3}
+  - {fileID: 2800000, guid: 1036bcd42e77a3c4c873361c59548389, type: 3}
+  - {fileID: 2800000, guid: 14a4c95d976e3d345b88d49e67cb289b, type: 3}
+  - {fileID: 2800000, guid: 60a2677481f9a6f4cb697f6dba15e262, type: 3}
+  - {fileID: 2800000, guid: c94ccb0270095e345902f1c08ea22678, type: 3}
+  - {fileID: 2800000, guid: f027c17e262f2634eb4d888b0b4199a2, type: 3}
+  - {fileID: 2800000, guid: ad6736f475d05f44fa45e2d4106e38ec, type: 3}
+  - {fileID: 2800000, guid: e00bed4f60cfcde4f81cf352e131770d, type: 3}
+  - {fileID: 2800000, guid: 7c008ca77d75bcd4495d60307cf6e003, type: 3}
+  - {fileID: 2800000, guid: ba4d20c3b07d0e54991386f6096f3440, type: 3}
+  - {fileID: 2800000, guid: dfbaa1983ef553a48b41e12123a24222, type: 3}
   atlasTransparentTextures:
-  - {fileID: 2800000, guid: 8bdaf05c5a3407f49bc1ea409ba70af2, type: 3}
-  - {fileID: 2800000, guid: 9623d4a7ae10f0145bc17cccae23aef6, type: 3}
+  - {fileID: 2800000, guid: baca3e0943a208f40bce57e75e7a647a, type: 3}
 --- !u!4 &958432199
 Transform:
   m_ObjectHideFlags: 0

@@ -39,7 +39,7 @@ public class World : MonoBehaviour
         Texture2D atlas = GetTextureAtlas();
         Material material = new Material(Shader.Find("Standard"));
         material.mainTexture = atlas;
-        material.SetFloat("_Glossiness", 0);
+        material.SetFloat("_Glossiness", 0f);
         material.SetFloat("_SpecularHighlights", 0f);
         this.blockMaterial[0] = material;
 
@@ -160,8 +160,8 @@ public class World : MonoBehaviour
     private Texture2D GetTextureAtlas(bool isTransparent = false)
     {
         Texture2D[] usedAtlas = isTransparent ? this.atlasTransparentTextures : this.atlasTextures;
-        Texture2D textureAtlas = new Texture2D(8192, 8192);
-        Rect[] rectCoordinates = textureAtlas.PackTextures(usedAtlas, 0, 8192, false);
+        Texture2D textureAtlas = new Texture2D(512, 512);
+        Rect[] rectCoordinates = textureAtlas.PackTextures(usedAtlas, 5, 512, false);
         textureAtlas.Apply();
 
         for (int i = 0; i < rectCoordinates.Length; i++)
@@ -187,7 +187,7 @@ public class World : MonoBehaviour
         air.BottomUV = SetBlockTypeUv("air");
         blockTypes.Add(BlockName.AIR, air);
 
-        BlockType glass = new BlockType()
+        /*BlockType glass = new BlockType()
         {
             Name = "glass",
             IsTransparent = false,
@@ -198,7 +198,7 @@ public class World : MonoBehaviour
         glass.SideUV = SetBlockTypeUv("glass");
         glass.TopUV = SetBlockTypeUv("glass", BlockSideEnum.TOP);
         glass.BottomUV = glass.TopUV;
-        blockTypes.Add(BlockName.GLASS, glass);
+        blockTypes.Add(BlockName.GLASS, glass);*/
 
         BlockType water = new BlockType()
         {
@@ -210,7 +210,7 @@ public class World : MonoBehaviour
         };
         water.SideUV = SetBlockTypeUv("water");
         water.TopUV = SetBlockTypeUv("water", BlockSideEnum.TOP);
-        water.BottomUV = glass.TopUV;
+        water.BottomUV = water.TopUV;
         blockTypes.Add(BlockName.WATER, water);
 
 
@@ -229,7 +229,7 @@ public class World : MonoBehaviour
 
 
 
-        BlockType brick = new BlockType()
+        /*BlockType brick = new BlockType()
         {
             Name = "brick",
             IsTransparent = false,
@@ -240,7 +240,7 @@ public class World : MonoBehaviour
         brick.SideUV = SetBlockTypeUv("brick");
         brick.TopUV = SetBlockTypeUv("brick", BlockSideEnum.TOP);
         brick.BottomUV = brick.TopUV;
-        blockTypes.Add(BlockName.BRICK, brick);
+        blockTypes.Add(BlockName.BRICK, brick);*/
 
 
 
@@ -259,7 +259,7 @@ public class World : MonoBehaviour
 
 
 
-        BlockType snow = new BlockType()
+        /*BlockType snow = new BlockType()
         {
             Name = "snow",
             IsTransparent = false,
@@ -270,7 +270,7 @@ public class World : MonoBehaviour
         snow.SideUV = SetBlockTypeUv("snow");
         snow.TopUV = SetBlockTypeUv("snow", BlockSideEnum.TOP);
         snow.BottomUV = snow.TopUV;
-        blockTypes.Add(BlockName.SNOW, snow);
+        blockTypes.Add(BlockName.SNOW, snow);*/
 
 
 
@@ -328,7 +328,7 @@ public class World : MonoBehaviour
         jungleBlock.BottomUV = jungleBlock.TopUV;
         blockTypes.Add(BlockName.JUNGLE_BLOCK, jungleBlock);
 
-        BlockType beachBlock = new BlockType()
+        /*BlockType beachBlock = new BlockType()
         {
             Name = "beachblock",
             IsTransparent = false,
@@ -339,7 +339,7 @@ public class World : MonoBehaviour
         beachBlock.SideUV = SetBlockTypeUv("beachblock");
         beachBlock.TopUV = SetBlockTypeUv("beachblock", BlockSideEnum.TOP);
         beachBlock.BottomUV = beachBlock.TopUV;
-        blockTypes.Add(BlockName.BEACH_BLOCK, beachBlock);
+        blockTypes.Add(BlockName.BEACH_BLOCK, beachBlock);*/
 
         BlockType savannaBlock = new BlockType()
         {
