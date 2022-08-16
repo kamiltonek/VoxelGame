@@ -3,6 +3,8 @@ using UnityEngine;
 
 public static class BiomeUtils
 {
+    public static float waterNoiseParameter = 0.1f;
+
     private static float worldHeight = 2160.0f;
 
     private static int temperatureAreaSize = 20;
@@ -38,9 +40,9 @@ public static class BiomeUtils
         temperature -= x4;
 
 
-        float waterDistance = waterNoise - 0.5f;
+        float waterDistance = waterNoise - waterNoiseParameter;
 
-        if (waterNoise < 0.50)
+        if (waterNoise < waterNoiseParameter)
         {
             return new Water(waterDistance);
         }
@@ -106,7 +108,7 @@ public static class BiomeUtils
         temperature -= x4;
 
 
-        if (waterNoise < 0.50)
+        if (waterNoise < waterNoiseParameter)
         {
             return water;
         }

@@ -7,9 +7,11 @@ public class WorldGenerator : MonoBehaviour
 {
     [SerializeField] private Button generateWorldButton;
     [SerializeField] private Image canvasImage;
+    
     private Texture2D texture;
     private int tileSize = 8;
     private int zoom = 16;
+
     
     void Start()
     {
@@ -19,6 +21,7 @@ public class WorldGenerator : MonoBehaviour
 
         DrawWorld();
     }
+
 
     public void DrawWorld()
     {
