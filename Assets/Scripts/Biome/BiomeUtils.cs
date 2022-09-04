@@ -7,7 +7,7 @@ public static class BiomeUtils
 
     private static float worldHeight = 2160.0f;
 
-    private static int temperatureAreaSize = 20;
+    private static int temperatureAreaSize = 10;
     private static int moistureAreaSize = 15;
     private static int waterNoiseAreaSize = 35;
 
@@ -20,7 +20,7 @@ public static class BiomeUtils
     private static Color tundra = new Color(11 / 255f, 102 / 255f, 89 / 255f, 255);
     private static Color water = new Color(0 / 255f, 136 / 255f, 255 / 255f, 255);
     private static Color ice = new Color(122 / 255f, 173 / 255f, 255 / 255f, 255);
-    private static Color river = new Color(0 / 255f, 0 / 255f, 0 / 255f, 255);
+    private static Color river = water;//new Color(0 / 255f, 0 / 255f, 0 / 255f, 255);
     private static Color beach = new Color(250 / 255f, 222 / 255f, 85 / 255f, 255);
 
     public static Biome SelectBiome(float x, float z)
@@ -91,24 +91,31 @@ public static class BiomeUtils
 
     }
 
-    public static Color SelectBiomeColor(float x, float z)
+    public static Color SelectBiomeColor(
+        float x, 
+        float z,
+        float waterSpread,
+        int waterAreaSize,
+        float extraTemperature,
+        float heightImpact,
+        float biomeSize)
     {
         float temperature =
-            ChunkUtils.GenerateTemperature(x / temperatureAreaSize, z / temperatureAreaSize);
+            ChunkUtils.GenerateTemperature(x / biomeSize, z / biomeSize);
         float moisture =
             ChunkUtils.GenerateMoisture(x / moistureAreaSize, z / moistureAreaSize);
         float waterNoise =
-            ChunkUtils.GenerateWaterNoise(x / waterNoiseAreaSize, z / waterNoiseAreaSize);
+            ChunkUtils.GenerateWaterNoise(x / waterAreaSize, z / waterAreaSize);
 
         float x1 = x - (worldHeight / 2.0f);
         float x2 = x1 / (worldHeight / 2.0f);
         float x3 = x2 * Mathf.PI / 2.0f;
-        float x4 = 0.55f * Mathf.Sin(x3);
+        float x4 = heightImpact * Mathf.Sin(x3);
 
-        temperature -= x4;
+        temperature -= x4 + extraTemperature;
 
 
-        if (waterNoise < waterNoiseParameter)
+        if (waterNoise < waterSpread)
         {
             return water;
         }

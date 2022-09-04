@@ -72,25 +72,25 @@ public class Block
         if (blockType.IsTransparent)
             return;
 
-        if(HasTransparentNeighbourTest(BlockSideEnum.FRONT))
+        if(HasTransparentNeighbour(BlockSideEnum.FRONT))
             GenerateBlockSide(BlockSideEnum.FRONT);
-        if (HasTransparentNeighbourTest(BlockSideEnum.BACK))
+        if (HasTransparentNeighbour(BlockSideEnum.BACK))
             GenerateBlockSide(BlockSideEnum.BACK);
-        if (HasTransparentNeighbourTest(BlockSideEnum.LEFT_BACK))
+        if (HasTransparentNeighbour(BlockSideEnum.LEFT_BACK))
             GenerateBlockSide(BlockSideEnum.LEFT_BACK);
-        if (HasTransparentNeighbourTest(BlockSideEnum.LEFT_FRONT))
+        if (HasTransparentNeighbour(BlockSideEnum.LEFT_FRONT))
             GenerateBlockSide(BlockSideEnum.LEFT_FRONT);
-        if (HasTransparentNeighbourTest(BlockSideEnum.RIGHT_BACK))
+        if (HasTransparentNeighbour(BlockSideEnum.RIGHT_BACK))
             GenerateBlockSide(BlockSideEnum.RIGHT_BACK);
-        if (HasTransparentNeighbourTest(BlockSideEnum.RIGHT_FRONT))
+        if (HasTransparentNeighbour(BlockSideEnum.RIGHT_FRONT))
             GenerateBlockSide(BlockSideEnum.RIGHT_FRONT);
-        if (HasTransparentNeighbourTest(BlockSideEnum.TOP))
+        if (HasTransparentNeighbour(BlockSideEnum.TOP))
             GenerateBlockSide(BlockSideEnum.TOP);
         //if (HasTransparentNeighbour(BlockSideEnum.BOTTOM))
            //GenerateBlockSide(BlockSideEnum.BOTTOM);
     }
 
-    private bool HasTransparentNeighbour(BlockSideEnum blockSide)
+    private bool HasTransparentNeighbourTest(BlockSideEnum blockSide)
     {
         Vector3Int neighbourPosition;
 
@@ -175,7 +175,7 @@ public class Block
 
     }
 
-    private bool HasTransparentNeighbourTest(BlockSideEnum blockSide)
+    private bool HasTransparentNeighbour(BlockSideEnum blockSide)
     {
         if(blockType.IsLiquid && blockSide != BlockSideEnum.TOP)
         {

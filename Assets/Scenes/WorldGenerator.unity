@@ -380,6 +380,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc30be8ac93b8a34da3c7a8b5a944e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterSpread: 0.205
+  waterAreaSize: 67
+  extraTemperature: 0
+  heightImpact: 0.496
+  biomeSize: 16
   generateWorldButton: {fileID: 1088589257}
   canvasImage: {fileID: 518152543}
 --- !u!114 &385705194
@@ -1181,7 +1186,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1333,7 +1338,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1673,7 +1678,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1279112928
 RectTransform:
   m_ObjectHideFlags: 0
