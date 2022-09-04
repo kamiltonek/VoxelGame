@@ -5,11 +5,38 @@ using UnityEngine.UI;
 
 public class WorldGenerator : MonoBehaviour
 {
-    [SerializeField] private Button generateWorldButton;
-    [SerializeField] private Image canvasImage;
+    [Header("Generowanie wody")]
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float waterSpread;
+
+    [Range(0, 500)]
+    [SerializeField]
+    private int waterAreaSize;
+
+    [Header("Temperatura")]
+    [Range(-0.5f, 0.5f)]
+    [SerializeField]
+    private float extraTemperature;
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float heightImpact;
+
+    [Header("Generowanie biomów")]
+    [Range(0f, 200f)]
+    [SerializeField]
+    private float biomeSize;
+
+    [Header("Obiekty")]
+    [SerializeField] 
+    private Button generateWorldButton;
+    [SerializeField] 
+    private Image canvasImage;
+    
     private Texture2D texture;
     private int tileSize = 8;
     private int zoom = 16;
+
     
     void Start()
     {
@@ -20,6 +47,7 @@ public class WorldGenerator : MonoBehaviour
         DrawWorld();
     }
 
+
     public void DrawWorld()
     {
         ChunkUtils.GenerateRandomOffset();
@@ -28,7 +56,14 @@ public class WorldGenerator : MonoBehaviour
         {
             for (int x = 0; x < texture.width / tileSize; x++)
             {
-                Color biomeColor = BiomeUtils.SelectBiomeColor(y * zoom, x * zoom);
+                Color biomeColor = BiomeUtils.SelectBiomeColor(
+                    y * zoom, 
+                    x * zoom,
+                    waterSpread,
+                    waterAreaSize,
+                    extraTemperature,
+                    heightImpact,
+                    biomeSize);
 
                 for (int i = 0; i < tileSize; i++)
                 {
