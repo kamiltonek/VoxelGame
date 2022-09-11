@@ -18,6 +18,42 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Move();
+        CheckClick();
+    }
+
+    private void CheckClick()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+            {
+                Chunk chunkToEdit;
+                string chunkToEditName = World.GenerateChunkName(hit.transform.position);
+                if (World.chunks.TryGetValue(chunkToEditName, out chunkToEdit))
+                {
+                    Vector3Int blockPosition = Vector3Int.FloorToInt(hit.transform.InverseTransformPoint(hit.point) + new Vector3(0.5f, 0.5f, 0.5f) - hit.normal / 2);
+
+                    chunkToEdit.RemoveBlock(blockPosition);
+                }
+            }
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+            {
+                Chunk chunkToEdit;
+                string chunkToEditName = World.GenerateChunkName(hit.transform.position);
+                if (World.chunks.TryGetValue(chunkToEditName, out chunkToEdit))
+                {
+                    Vector3Int blockPosition = Vector3Int.FloorToInt(hit.transform.InverseTransformPoint(hit.point) + new Vector3(0.5f, 0.5f, 0.5f) + hit.normal / 2);
+                    //Vector3Int blockPosition = new Vector3Int(1, 5, 1);
+
+                    chunkToEdit.AddBlock(blockPosition);
+                }
+            }
+        }
     }
 
     private void Move()

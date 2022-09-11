@@ -473,4 +473,9 @@ public class World : MonoBehaviour
         currentPlayerPosition.x = Mathf.Floor(player.transform.position.x / 7.5f);
         currentPlayerPosition.y = Mathf.Floor(player.transform.position.z / (10 * (float)Math.Sqrt(3) / 2));
     }
+
+    public static string GenerateChunkName(Vector3 chunkPosition)
+    {
+        return chunkPosition.x + "_" + chunkPosition.y + "_" + chunkPosition.z;
+    }
 }

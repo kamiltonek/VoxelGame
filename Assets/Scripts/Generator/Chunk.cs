@@ -111,15 +111,173 @@ public class Chunk
         colliderMesh.vertices = vertices.ToArray();
         colliderMesh.triangles = triangles.ToArray().Concat(transparentTriangles.ToArray()).ToArray();
 
-        MeshFilter blockMeshFilter = (MeshFilter)chunkObject.AddComponent(typeof(MeshFilter));
+        MeshFilter blockMeshFilter = (MeshFilter)chunkObject.GetComponent(typeof(MeshFilter));
+
+        if (blockMeshFilter == null)
+        {
+            blockMeshFilter = (MeshFilter)chunkObject.AddComponent(typeof(MeshFilter));
+        }
         blockMeshFilter.mesh = mesh;
 
-        MeshRenderer blockMeshRenderer = (MeshRenderer)chunkObject.AddComponent(typeof(MeshRenderer));
+        MeshRenderer blockMeshRenderer = (MeshRenderer)chunkObject.GetComponent(typeof(MeshRenderer));
+        if (blockMeshRenderer == null)
+        {
+            blockMeshRenderer = (MeshRenderer)chunkObject.AddComponent(typeof(MeshRenderer));
+        }
         blockMeshRenderer.materials = blockMaterials;
 
-        MeshCollider blockMeshCollider = chunkObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
+        MeshCollider blockMeshCollider = chunkObject.GetComponent(typeof(MeshCollider)) as MeshCollider;
+        if (blockMeshCollider == null)
+        {
+            blockMeshCollider = chunkObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
+        }
         blockMeshCollider.sharedMesh = colliderMesh;
 
     }
 
+    public void AddBlock(Vector3Int blockPos)
+    {
+        bool oddX = blockPos.x % 2 == 0;
+        float zOffset = oddX ? 0 : (float)(0.5 * Math.Sqrt(3) / 2);
+
+        float posX = blockPos.x * 0.75f;
+        float posY = blockPos.y * 0.5f;
+        float posZ = blockPos.z - zOffset - blockPos.z * (1f - (float)(0.5 * Math.Sqrt(3)));
+
+        chunkBlocks[blockPos.x, blockPos.y, blockPos.z] = new Block(
+            World.blockTypes[BlockName.DESERT_BLOCK],
+            this,
+            new Vector3(posX, posY, posZ),
+            new Vector3Int(blockPos.x, blockPos.y, blockPos.z));
+
+        this.status = ChunkStatusEnum.TO_DRAW;
+        RefreshChunk();
+
+        /*Chunk neigbourChunk;
+        //Refresh suraround chunks
+        if (blockPos.x == 0)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.left * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.x == World.chunkSize - 1)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.right * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.y == 0)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.down * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.y == World.chunkSize - 1)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.up * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.z == 0)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.back * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.z == World.chunkSize - 1)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.forward * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }*/
+    }
+    public void RemoveBlock(Vector3Int blockPos)
+    {
+        chunkBlocks[blockPos.x, blockPos.y, blockPos.z] = new Block(World.blockTypes[BlockName.SAND],
+            this,
+            chunkObject.transform.position,
+            new Vector3Int(blockPos.x, blockPos.y, blockPos.z));
+        RefreshChunk();
+
+        Chunk neigbourChunk;
+        //Refresh suraround chunks
+        if (blockPos.x == 0)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.left * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.x == World.chunkSize - 1)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.right * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.y == 0)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.down * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.y == World.chunkSize - 1)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.up * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.z == 0)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.back * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+        if (blockPos.z == World.chunkSize - 1)
+        {
+            string chunkNeighbourPosition = World.GenerateChunkName(chunkObject.transform.position + Vector3.forward * World.chunkSize);
+            if (World.chunks.TryGetValue(chunkNeighbourPosition, out neigbourChunk))
+            {
+                neigbourChunk.RefreshChunk();
+            }
+        }
+
+    }
+
+    public void RefreshChunk()
+    {
+        ClearChunkMesh();
+        DrawChunk(World.chunkSize);
+    }
+
+    private void ClearChunkMesh()
+    {
+        vertexIndex = 0;
+        vertices.Clear();
+        triangles.Clear();
+        transparentTriangles.Clear();
+        liquidTriangles.Clear();
+        uvs.Clear();
+    }
 }
