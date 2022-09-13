@@ -9,12 +9,12 @@ public class Tundra : Biome
 
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.TUNDRA_BLOCK];
+        return World.blockTypes[BlockNameEnum.TUNDRA_BLOCK];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.TUNDRA_BLOCK];
+        return World.blockTypes[BlockNameEnum.TUNDRA_BLOCK];
     }
 
     public override BiomeNameEnum GetBiomeName()

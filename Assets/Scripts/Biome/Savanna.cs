@@ -9,12 +9,12 @@ public class Savanna : Biome
 
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.SAVANNA_BLOCK];
+        return World.blockTypes[BlockNameEnum.SAVANNA_BLOCK];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.SAVANNA_BLOCK];
+        return World.blockTypes[BlockNameEnum.SAVANNA_BLOCK];
     }
 
     public override BiomeNameEnum GetBiomeName()

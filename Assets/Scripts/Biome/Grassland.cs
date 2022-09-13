@@ -9,12 +9,12 @@ public class Grassland : Biome
 
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.GRASSLAND_BLOCK];
+        return World.blockTypes[BlockNameEnum.GRASSLAND_BLOCK];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.GRASSLAND_BLOCK];
+        return World.blockTypes[BlockNameEnum.GRASSLAND_BLOCK];
     }
     public override BiomeNameEnum GetBiomeName()
     {

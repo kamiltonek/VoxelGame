@@ -12,12 +12,12 @@ public class Water : Biome
     public override int maxHeight { get { return 4; } }
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.SAND];
+        return World.blockTypes[BlockNameEnum.SAND];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.SAND];
+        return World.blockTypes[BlockNameEnum.SAND];
     }
 
     public override BiomeNameEnum GetBiomeName()

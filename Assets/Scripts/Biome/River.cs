@@ -13,12 +13,12 @@ public class River : Biome
 
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.WATER];
+        return World.blockTypes[BlockNameEnum.WATER];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.WATER];
+        return World.blockTypes[BlockNameEnum.WATER];
     }
 
     public override BiomeNameEnum GetBiomeName()

@@ -24,7 +24,7 @@ public class World : MonoBehaviour
     Vector2 lastPlayerPosition;
     Vector2 currentPlayerPosition;
 
-    public static Dictionary<BlockName, BlockType> blockTypes = new Dictionary<BlockName, BlockType>();
+    public static Dictionary<BlockNameEnum, BlockType> blockTypes = new Dictionary<BlockNameEnum, BlockType>();
 
     private void Awake()
     {
@@ -185,7 +185,7 @@ public class World : MonoBehaviour
         air.SideUV = SetBlockTypeUv("air");
         air.TopUV = SetBlockTypeUv("air");
         air.BottomUV = SetBlockTypeUv("air");
-        blockTypes.Add(BlockName.AIR, air);
+        blockTypes.Add(BlockNameEnum.AIR, air);
 
         /*BlockType glass = new BlockType()
         {
@@ -211,7 +211,7 @@ public class World : MonoBehaviour
         water.SideUV = SetBlockTypeUv("water");
         water.TopUV = SetBlockTypeUv("water", BlockSideEnum.TOP);
         water.BottomUV = water.TopUV;
-        blockTypes.Add(BlockName.WATER, water);
+        blockTypes.Add(BlockNameEnum.WATER, water);
 
 
         BlockType dirt = new BlockType()
@@ -225,7 +225,7 @@ public class World : MonoBehaviour
         dirt.SideUV = SetBlockTypeUv("dirt");
         dirt.TopUV = SetBlockTypeUv("dirt", BlockSideEnum.TOP);
         dirt.BottomUV = dirt.TopUV;
-        blockTypes.Add(BlockName.DIRT, dirt);
+        blockTypes.Add(BlockNameEnum.DIRT, dirt);
 
 
 
@@ -255,7 +255,7 @@ public class World : MonoBehaviour
         grass.SideUV = SetBlockTypeUv("grass_side");
         grass.TopUV = SetBlockTypeUv("grass", BlockSideEnum.TOP);
         grass.BottomUV = SetBlockTypeUv("dirt", BlockSideEnum.BOTTOM);
-        blockTypes.Add(BlockName.GRASS, grass);
+        blockTypes.Add(BlockNameEnum.GRASS, grass);
 
 
 
@@ -285,7 +285,7 @@ public class World : MonoBehaviour
         sand.SideUV = SetBlockTypeUv("sand");
         sand.TopUV = SetBlockTypeUv("sand", BlockSideEnum.TOP);
         sand.BottomUV = sand.TopUV;
-        blockTypes.Add(BlockName.SAND, sand);
+        blockTypes.Add(BlockNameEnum.SAND, sand);
 
         // Biomes
 
@@ -300,7 +300,7 @@ public class World : MonoBehaviour
         grasslandBlock.SideUV = SetBlockTypeUv("grasslandblock");
         grasslandBlock.TopUV = SetBlockTypeUv("grasslandblock", BlockSideEnum.TOP);
         grasslandBlock.BottomUV = grasslandBlock.TopUV;
-        blockTypes.Add(BlockName.GRASSLAND_BLOCK, grasslandBlock);
+        blockTypes.Add(BlockNameEnum.GRASSLAND_BLOCK, grasslandBlock);
 
         BlockType iceBlock = new BlockType()
         {
@@ -313,7 +313,7 @@ public class World : MonoBehaviour
         iceBlock.SideUV = SetBlockTypeUv("iceblock");
         iceBlock.TopUV = SetBlockTypeUv("iceblock", BlockSideEnum.TOP);
         iceBlock.BottomUV = iceBlock.TopUV;
-        blockTypes.Add(BlockName.ICE_BLOCK, iceBlock);
+        blockTypes.Add(BlockNameEnum.ICE_BLOCK, iceBlock);
 
         BlockType jungleBlock = new BlockType()
         {
@@ -326,7 +326,7 @@ public class World : MonoBehaviour
         jungleBlock.SideUV = SetBlockTypeUv("jungleblock");
         jungleBlock.TopUV = SetBlockTypeUv("jungleblock", BlockSideEnum.TOP);
         jungleBlock.BottomUV = jungleBlock.TopUV;
-        blockTypes.Add(BlockName.JUNGLE_BLOCK, jungleBlock);
+        blockTypes.Add(BlockNameEnum.JUNGLE_BLOCK, jungleBlock);
 
         /*BlockType beachBlock = new BlockType()
         {
@@ -352,7 +352,7 @@ public class World : MonoBehaviour
         savannaBlock.SideUV = SetBlockTypeUv("savannablock");
         savannaBlock.TopUV = SetBlockTypeUv("savannablock", BlockSideEnum.TOP);
         savannaBlock.BottomUV = savannaBlock.TopUV;
-        blockTypes.Add(BlockName.SAVANNA_BLOCK, savannaBlock);
+        blockTypes.Add(BlockNameEnum.SAVANNA_BLOCK, savannaBlock);
 
         BlockType snowBlock = new BlockType()
         {
@@ -365,7 +365,7 @@ public class World : MonoBehaviour
         snowBlock.SideUV = SetBlockTypeUv("snowblock");
         snowBlock.TopUV = SetBlockTypeUv("snowblock", BlockSideEnum.TOP);
         snowBlock.BottomUV = snowBlock.TopUV;
-        blockTypes.Add(BlockName.SNOW_BLOCK, snowBlock);
+        blockTypes.Add(BlockNameEnum.SNOW_BLOCK, snowBlock);
 
         BlockType tajgaBlock = new BlockType()
         {
@@ -378,7 +378,7 @@ public class World : MonoBehaviour
         tajgaBlock.SideUV = SetBlockTypeUv("tajgablock");
         tajgaBlock.TopUV = SetBlockTypeUv("tajgablock", BlockSideEnum.TOP);
         tajgaBlock.BottomUV = tajgaBlock.TopUV;
-        blockTypes.Add(BlockName.TAJGA_BLOCK, tajgaBlock);
+        blockTypes.Add(BlockNameEnum.TAJGA_BLOCK, tajgaBlock);
 
         BlockType tundraBlock = new BlockType()
         {
@@ -391,7 +391,7 @@ public class World : MonoBehaviour
         tundraBlock.SideUV = SetBlockTypeUv("tundrablock");
         tundraBlock.TopUV = SetBlockTypeUv("tundrablock", BlockSideEnum.TOP);
         tundraBlock.BottomUV = tundraBlock.TopUV;
-        blockTypes.Add(BlockName.TUNDRA_BLOCK, tundraBlock);
+        blockTypes.Add(BlockNameEnum.TUNDRA_BLOCK, tundraBlock);
 
         BlockType desertBlock = new BlockType()
         {
@@ -404,7 +404,7 @@ public class World : MonoBehaviour
         desertBlock.SideUV = SetBlockTypeUv("desertblock");
         desertBlock.TopUV = SetBlockTypeUv("desertblock", BlockSideEnum.TOP);
         desertBlock.BottomUV = desertBlock.TopUV;
-        blockTypes.Add(BlockName.DESERT_BLOCK, desertBlock);
+        blockTypes.Add(BlockNameEnum.DESERT_BLOCK, desertBlock);
 
     }
 

@@ -9,12 +9,12 @@ public class Tajga : Biome
 
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.TAJGA_BLOCK];
+        return World.blockTypes[BlockNameEnum.TAJGA_BLOCK];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.TAJGA_BLOCK];
+        return World.blockTypes[BlockNameEnum.TAJGA_BLOCK];
     }
 
     public override BiomeNameEnum GetBiomeName()

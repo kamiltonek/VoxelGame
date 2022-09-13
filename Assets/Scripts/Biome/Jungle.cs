@@ -9,12 +9,12 @@ public class Jungle : Biome
 
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.JUNGLE_BLOCK];
+        return World.blockTypes[BlockNameEnum.JUNGLE_BLOCK];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.JUNGLE_BLOCK];
+        return World.blockTypes[BlockNameEnum.JUNGLE_BLOCK];
     }
 
     public override BiomeNameEnum GetBiomeName()

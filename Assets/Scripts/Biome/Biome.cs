@@ -40,22 +40,22 @@ public abstract class Biome
             return GenerateWaterLayer();
         }
 
-        return World.blockTypes[BlockName.AIR];
+        return World.blockTypes[BlockNameEnum.AIR];
     }
 
     protected virtual BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.GRASS];
+        return World.blockTypes[BlockNameEnum.GRASS];
     }
 
     protected virtual BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.DIRT];
+        return World.blockTypes[BlockNameEnum.DIRT];
     }
 
     protected virtual BlockType GenerateWaterLayer()
     {
-        return World.blockTypes[BlockName.WATER];
+        return World.blockTypes[BlockNameEnum.WATER];
     }
 
     protected virtual void GenerateTerrainValues(float x, float z)

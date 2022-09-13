@@ -9,12 +9,12 @@ public class Desert : Biome
 
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.DESERT_BLOCK];
+        return World.blockTypes[BlockNameEnum.DESERT_BLOCK];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.DESERT_BLOCK];
+        return World.blockTypes[BlockNameEnum.DESERT_BLOCK];
     }
 
     public override BiomeNameEnum GetBiomeName()

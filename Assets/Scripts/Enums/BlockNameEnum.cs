@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Enums
 {
-    public enum BlockName
+    public enum BlockNameEnum
 
     {
         AIR, 

@@ -9,12 +9,12 @@ public class Beach : Biome
 
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.SAND];
+        return World.blockTypes[BlockNameEnum.SAND];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.SAND];
+        return World.blockTypes[BlockNameEnum.SAND];
     }
 
     public override BiomeNameEnum GetBiomeName()

@@ -9,12 +9,12 @@ public class Ice : Biome
 
     protected override BlockType GenerateSurface()
     {
-        return World.blockTypes[BlockName.ICE_BLOCK];
+        return World.blockTypes[BlockNameEnum.ICE_BLOCK];
     }
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockName.ICE_BLOCK];
+        return World.blockTypes[BlockNameEnum.ICE_BLOCK];
     }
 
     public override BiomeNameEnum GetBiomeName()
