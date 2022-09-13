@@ -158,22 +158,24 @@ public class Block
 
     private Vector2[] GetBlockSideUVs(BlockSideEnum side)
     {
-        Vector2[] uvs;
-
-        if(blockType == BlockTypeEnum.AIR)
+        try
         {
-            uvs = new Vector2[4]
+            Vector2[] uvs;
+
+            if (blockType == BlockTypeEnum.AIR)
             {
+                uvs = new Vector2[4]
+                {
                 new Vector2(0.25f, 0.25f),
                 new Vector2(0.75f, 0.25f),
                 new Vector2(0.25f, 0.75f),
                 new Vector2(0.75f, 0.75f)
-            };
-        }
-        else if (blockType == BlockTypeEnum.GRASS && side == BlockSideEnum.BOTTOM)
-        {
-            uvs = new Vector2[7]
+                };
+            }
+            else if (blockType == BlockTypeEnum.GRASS && side == BlockSideEnum.BOTTOM)
             {
+                uvs = new Vector2[7]
+                {
                 new Vector2(
                     blockUVCoordinates[BlockTypeEnum.DIRT.ToString().ToLower()].x + (blockUVCoordinates[BlockTypeEnum.DIRT.ToString().ToLower()].width * 0.25f),
                     blockUVCoordinates[BlockTypeEnum.DIRT.ToString().ToLower()].y),
@@ -195,12 +197,12 @@ public class Block
                 new Vector2(
                     blockUVCoordinates[BlockTypeEnum.DIRT.ToString().ToLower()].x + (blockUVCoordinates[BlockTypeEnum.DIRT.ToString().ToLower()].width * 0.5f),
                     blockUVCoordinates[BlockTypeEnum.DIRT.ToString().ToLower()].y + (blockUVCoordinates[BlockTypeEnum.DIRT.ToString().ToLower()].height * 0.5f))
-            };
-        }
-        else if (blockType == BlockTypeEnum.GRASS && side != BlockSideEnum.TOP)
-        {
-            uvs = new Vector2[4]
+                };
+            }
+            else if (blockType == BlockTypeEnum.GRASS && side != BlockSideEnum.TOP)
             {
+                uvs = new Vector2[4]
+                {
                 new Vector2(
                     blockUVCoordinates["grass_side"].x + (blockUVCoordinates["grass_side"].width * 0.25f),
                     blockUVCoordinates["grass_side"].y + (blockUVCoordinates["grass_side"].height * 0.25f)),
@@ -213,55 +215,61 @@ public class Block
                 new Vector2(
                     blockUVCoordinates["grass_side"].x + (blockUVCoordinates["grass_side"].width * 0.75f),
                     blockUVCoordinates["grass_side"].y + (blockUVCoordinates["grass_side"].height * 0.75f)),
-            };
-        }
-        else if (side == BlockSideEnum.TOP || side == BlockSideEnum.BOTTOM)
-        {
-            uvs = new Vector2[7]
+                };
+            }
+            else if (side == BlockSideEnum.TOP || side == BlockSideEnum.BOTTOM)
             {
+                uvs = new Vector2[7]
+                {
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.25f), 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.25f),
                     blockUVCoordinates[blockType.ToString().ToLower()].y),
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.75f), 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.75f),
                     blockUVCoordinates[blockType.ToString().ToLower()].y),
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x, 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x,
                     blockUVCoordinates[blockType.ToString().ToLower()].y + (blockUVCoordinates[blockType.ToString().ToLower()].height * 0.5f)),
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width), 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width),
                     blockUVCoordinates[blockType.ToString().ToLower()].y + (blockUVCoordinates[blockType.ToString().ToLower()].height * 0.5f)),
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.25f), 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.25f),
                     blockUVCoordinates[blockType.ToString().ToLower()].y + (blockUVCoordinates[blockType.ToString().ToLower()].height)),
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.75f), 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.75f),
                     blockUVCoordinates[blockType.ToString().ToLower()].y + (blockUVCoordinates[blockType.ToString().ToLower()].height)),
                 new Vector2(
                     blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.5f),
                     blockUVCoordinates[blockType.ToString().ToLower()].y + (blockUVCoordinates[blockType.ToString().ToLower()].height * 0.5f))
-            };
-        }
-        else
-        {
-            uvs = new Vector2[4]
+                };
+            }
+            else
             {
+                uvs = new Vector2[4]
+                {
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.25f), 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.25f),
                     blockUVCoordinates[blockType.ToString().ToLower()].y + (blockUVCoordinates[blockType.ToString().ToLower()].height * 0.25f)),
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.75f), 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.75f),
                     blockUVCoordinates[blockType.ToString().ToLower()].y + (blockUVCoordinates[blockType.ToString().ToLower()].height * 0.25f)),
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.25f), 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.25f),
                     blockUVCoordinates[blockType.ToString().ToLower()].y + (blockUVCoordinates[blockType.ToString().ToLower()].height * 0.75f)),
                 new Vector2(
-                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.75f), 
+                    blockUVCoordinates[blockType.ToString().ToLower()].x + (blockUVCoordinates[blockType.ToString().ToLower()].width * 0.75f),
                     blockUVCoordinates[blockType.ToString().ToLower()].y + (blockUVCoordinates[blockType.ToString().ToLower()].height * 0.75f)),
-            };
-        }
+                };
+            }
 
-        return uvs;
+            return uvs;
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+        
     }
 
     private Mesh GenerateBlockSide(Mesh mesh, BlockSideEnum side, Vector2[] uvs)
