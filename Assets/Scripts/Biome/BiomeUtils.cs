@@ -13,7 +13,6 @@ public static class BiomeUtils
 
     private static Color desert = new Color(255 / 255f, 145 / 255f, 0, 255);
     private static Color grassland = new Color(141 / 255f, 179 / 255f, 96 / 255f, 255);
-    private static Color jungle = new Color(83 / 255f, 123 / 255f, 9 / 255f, 255);
     private static Color savanna = new Color(189 / 255f, 178 / 255f, 95 / 255f, 255);
     private static Color snow = new Color(245 / 255f, 249 / 255f, 255 / 255f, 255);
     private static Color tajga = new Color(7 / 255f, 249 / 255f, 178 / 255f, 255);
@@ -103,7 +102,7 @@ public static class BiomeUtils
         float temperature =
             ChunkUtils.GenerateTemperature(x / biomeSize, z / biomeSize);
         float moisture =
-            ChunkUtils.GenerateMoisture(x / moistureAreaSize, z / moistureAreaSize);
+            ChunkUtils.GenerateMoisture(x / biomeSize, z / biomeSize);
         float waterNoise =
             ChunkUtils.GenerateWaterNoise(x / waterAreaSize, z / waterAreaSize);
 
@@ -112,7 +111,7 @@ public static class BiomeUtils
         float x3 = x2 * Mathf.PI / 2.0f;
         float x4 = heightImpact * Mathf.Sin(x3);
 
-        temperature -= x4 + extraTemperature;
+        temperature -= x4 - extraTemperature;
 
 
         if (waterNoise < waterSpread)
@@ -165,5 +164,113 @@ public static class BiomeUtils
 
     }
 
+    private static Color temp1 = new Color(228 / 255f, 134 / 255f, 37 / 255f, 255);
+    private static Color temp2 = new Color(240 / 255f, 174 / 255f, 53 / 255f, 255);
+    private static Color temp3 = new Color(249 / 255f, 218 / 255f, 70 / 255f, 255);
+    private static Color temp4 = new Color(165 / 255f, 224 / 255f, 54 / 255f, 255);
+    private static Color temp5 = new Color(83 / 255f, 197 / 255f, 116 / 255f, 255);
+    private static Color temp6 = new Color(220 / 255f, 239 / 255f, 255 / 255f, 255);
+    private static Color temp7 = new Color(171 / 255f, 216 / 255f, 255 / 255f, 255);
+    private static Color temp8 = new Color(85 / 255f, 175 / 255f, 255 / 255f, 255);
 
+
+    public static Color SelectTemperature(
+        float x,
+        float z,
+        float size)
+    {
+        float temperature =
+            ChunkUtils.GenerateTemperature(x / size, z / size);
+
+        if(temperature < 0.125f)
+        {
+            return temp8;
+        }
+
+        if (temperature < 0.25f)
+        {
+            return temp7;
+        }
+
+        if (temperature < 0.375f)
+        {
+            return temp6;
+        }
+
+        if (temperature < 0.5)
+        {
+            return temp5;
+        }
+
+        if (temperature < 0.625f)
+        {
+            return temp4;
+        }
+
+        if (temperature < 0.75f)
+        {
+            return temp3;
+        }
+
+        if (temperature < 0.875f)
+        {
+            return temp2;
+        }
+
+        return temp1;
+    }
+
+    private static Color moisture1 = new Color(147 / 255f, 228 / 255f, 249 / 255f, 255);
+    private static Color moisture2 = new Color(130 / 255f, 195 / 255f, 251 / 255f, 255);
+    private static Color moisture3 = new Color(101 / 255f, 102 / 255f, 247 / 255f, 255);
+    private static Color moisture4 = new Color(197 / 255f, 152 / 255f, 244 / 255f, 255);
+    private static Color moisture5 = new Color(115 / 255f, 61 / 255f, 155 / 255f, 255);
+
+
+    public static Color SelectMoisture(
+        float x,
+        float z,
+        float size)
+    {
+        float temperature =
+            ChunkUtils.GenerateMoisture(x / size, z / size);
+
+        if (temperature < 0.2f)
+        {
+            return moisture1;
+        }
+
+        if (temperature < 0.4f)
+        {
+            return moisture2;
+        }
+
+        if (temperature < 0.6f)
+        {
+            return moisture3;
+        }
+
+        if (temperature < 0.8)
+        {
+            return moisture1;
+        }
+
+        return moisture5;
+    }
+
+    public static Color SelectWater(
+        float x,
+        float z,
+        float size)
+    {
+        float temperature =
+            ChunkUtils.GenerateMoisture(x / size, z / size);
+
+        if (temperature < 0.5f)
+        {
+            return water;
+        }
+
+        return grassland;
+    }
 }

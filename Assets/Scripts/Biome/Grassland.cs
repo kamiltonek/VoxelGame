@@ -14,7 +14,7 @@ public class Grassland : Biome
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockNameEnum.GRASSLAND_BLOCK];
+        return World.blockTypes[BlockNameEnum.DIRT];
     }
     public override BiomeNameEnum GetBiomeName()
     {

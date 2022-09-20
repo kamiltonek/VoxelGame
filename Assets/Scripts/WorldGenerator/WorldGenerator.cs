@@ -10,7 +10,7 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField]
     private float waterSpread;
 
-    [Range(0, 500)]
+    [Range(1, 500)]
     [SerializeField]
     private int waterAreaSize;
 
@@ -23,7 +23,7 @@ public class WorldGenerator : MonoBehaviour
     private float heightImpact;
 
     [Header("Generowanie biomów")]
-    [Range(0f, 200f)]
+    [Range(1f, 200f)]
     [SerializeField]
     private float biomeSize;
 
@@ -64,6 +64,7 @@ public class WorldGenerator : MonoBehaviour
                     extraTemperature,
                     heightImpact,
                     biomeSize);
+
 
                 for (int i = 0; i < tileSize; i++)
                 {

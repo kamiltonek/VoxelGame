@@ -7,9 +7,9 @@ public class River : Biome
     {
     }
 
-    public override int minHeight { get { return 0; } }
+    public override int minHeight { get { return 1; } }
 
-    public override int maxHeight { get { return 3; } }
+    public override int maxHeight { get { return 4; } }
 
     protected override BlockType GenerateSurface()
     {
@@ -18,7 +18,7 @@ public class River : Biome
 
     protected override BlockType Generate1stLayer()
     {
-        return World.blockTypes[BlockNameEnum.WATER];
+        return World.blockTypes[BlockNameEnum.SAND];
     }
 
     public override BiomeNameEnum GetBiomeName()

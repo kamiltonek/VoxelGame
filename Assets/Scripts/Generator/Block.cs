@@ -255,6 +255,11 @@ public class Block
         else if (blockSide == BlockSideEnum.TOP)
         {
             neighbourCubePosition = new Vector3Int(cubeBlockPosition.x, cubeBlockPosition.y + 1, cubeBlockPosition.z);
+
+            if (neighbourCubePosition.y == World.chunkSize)
+            {
+                neighbourPosition.y += 0.5f;
+            }
         }
         else
         {

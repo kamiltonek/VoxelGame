@@ -17,7 +17,7 @@ public class World : MonoBehaviour
     private float updatePlayerPositionDelay = 0.5f;
     private int columnHeight = 2;
     public static int chunkSize = 10;
-    private int worldRadius = 6;
+    private int worldRadius = 5;
     Material[] blockMaterial = new Material[2];
 
     GameObject player;
@@ -59,20 +59,23 @@ public class World : MonoBehaviour
 
     private void Update()
     {
-        updatePlayerPositionDelay -= Time.deltaTime;
-
-        if(updatePlayerPositionDelay <= 0)
-        {
-            UpdatePlayerPosition();
-            updatePlayerPositionDelay = 0.5f;
-        }  
-
         if (currentPlayerPosition != lastPlayerPosition)
         {
             lastPlayerPosition = currentPlayerPosition;
             GenerateWorld();
             StartCoroutine(BuildWorld());
-        }
+        }    
+    }
+
+    private void FixedUpdate()
+    {
+        updatePlayerPositionDelay -= Time.deltaTime;
+
+        if (updatePlayerPositionDelay <= 0)
+        {
+            UpdatePlayerPosition();
+            updatePlayerPositionDelay = 0.5f;
+        }  
     }
 
     IEnumerator BuildWorld(bool isFirst = false)
@@ -161,7 +164,7 @@ public class World : MonoBehaviour
     {
         Texture2D[] usedAtlas = isTransparent ? this.atlasTransparentTextures : this.atlasTextures;
         Texture2D textureAtlas = new Texture2D(512, 512);
-        Rect[] rectCoordinates = textureAtlas.PackTextures(usedAtlas, 5, 512, false);
+        Rect[] rectCoordinates = textureAtlas.PackTextures(usedAtlas, 0, 512, false);
         textureAtlas.Apply();
 
         for (int i = 0; i < rectCoordinates.Length; i++)
@@ -295,11 +298,11 @@ public class World : MonoBehaviour
             IsTransparent = false,
             IsTranslucent = false,
             IsLiquid = false,
-            EverySideSame = true
+            EverySideSame = false
         };
-        grasslandBlock.SideUV = SetBlockTypeUv("grasslandblock");
-        grasslandBlock.TopUV = SetBlockTypeUv("grasslandblock", BlockSideEnum.TOP);
-        grasslandBlock.BottomUV = grasslandBlock.TopUV;
+        grasslandBlock.SideUV = SetBlockTypeUv("grass_side");
+        grasslandBlock.TopUV = SetBlockTypeUv("grass", BlockSideEnum.TOP);
+        grasslandBlock.BottomUV = SetBlockTypeUv("dirt", BlockSideEnum.BOTTOM);
         blockTypes.Add(BlockNameEnum.GRASSLAND_BLOCK, grasslandBlock);
 
         BlockType iceBlock = new BlockType()

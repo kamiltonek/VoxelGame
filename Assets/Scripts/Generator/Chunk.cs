@@ -52,6 +52,7 @@ public class Chunk
                     float worldZ = posZ + chunkObject.transform.position.z;
 
                     Biome biome = BiomeUtils.SelectBiome(worldX, worldZ);
+
                     BlockType biomeBlock = biome.GenerateTerrain(worldX, worldY, worldZ);
 
                     chunkBlocks[x, y, z] = new Block(
@@ -59,9 +60,6 @@ public class Chunk
                            this,
                            new Vector3(posX, posY, posZ),
                            new Vector3Int(x, y, z));
-
-                    this.status = ChunkStatusEnum.TO_DRAW;
-
                 }
             }  
         }

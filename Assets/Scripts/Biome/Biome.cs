@@ -1,15 +1,16 @@
 using Assets.Scripts;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Generator;
+using System;
 
 public abstract class Biome
 {
-    public virtual float layerIncrement { get { return 0.02f; } }
+    public virtual float layerIncrement { get { return 0.045f; } }
     public virtual float waterLayerY { get { return 4; } }
     public virtual int minHeight { get { return 4; } }
-    public virtual int maxHeight { get { return 8; } }
+    public virtual int maxHeight { get { return 9; } }
 
-    protected int generatedY;
+    protected float generatedY;
     // Parametr okreœlaj¹cy odleg³oœæ od zbiorników wodnych
     // (-) woda
     // (+) l¹d
@@ -25,17 +26,18 @@ public abstract class Biome
     {
         GenerateTerrainValues(x, z);
 
-        if(y * 2 == generatedY)
+
+        if (y == generatedY)
         {
             return GenerateSurface();
         }
 
-        if(y * 2 < generatedY)
+        if(y < generatedY)
         {
             return Generate1stLayer();
         }
 
-        if(y * 2 <= waterLayerY)
+        if(y <= waterLayerY)
         {
             return GenerateWaterLayer();
         }
@@ -60,8 +62,10 @@ public abstract class Biome
 
     protected virtual void GenerateTerrainValues(float x, float z)
     {
-        generatedY = (int)ChunkUtils.GenerateHeight(x, z, layerIncrement, minHeight, maxHeight, waterDistance);
-        //generatedY = 16;
+        generatedY =
+            (float)(Math.Round(
+                (decimal)2 * (decimal)ChunkUtils.GenerateHeight(x, z, layerIncrement, minHeight, maxHeight, waterDistance),
+                MidpointRounding.AwayFromZero) / 2);
     }
 
     public virtual BiomeNameEnum GetBiomeName()
